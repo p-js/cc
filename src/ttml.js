@@ -188,7 +188,6 @@ XMLHttpRequest:true, navigator:true */
 	 * @constructor
 	 */
 	captionator.TextTrack = function TextTrack(id, kind, label, language, trackSource, isDefault) {
-		console.debug("TextTrack", arguments);
 		this.onload = function() {};
 		this.onerror = function() {};
 		this.oncuechange = function() {};
@@ -626,6 +625,7 @@ XMLHttpRequest:true, navigator:true */
 
 		// Work out what cues are showing...
 		trackList.forEach(function(track) {
+			console.debug("ttml.js:628 ", track);
 			if (track.mode === captionator.TextTrack.SHOWING && track.readyState === captionator.TextTrack.LOADED) {
 				cueSortArray = [].slice.call(track.activeCues, 0);
 
@@ -668,9 +668,7 @@ XMLHttpRequest:true, navigator:true */
 			captionator.styleCueCanvas(videoElement);
 
 			// Clear old nodes from canvas
-			var oldNodes =
-				[].slice.call(videoElement._descriptionContainerObject.getElementsByTagName("div"), 0)
-				.concat([].slice.call(videoElement._containerObject.getElementsByTagName("div"), 0));
+			var oldNodes = [].concat([].slice.call(videoElement._containerObject.getElementsByTagName("div"), 0));
 
 			oldNodes.forEach(function(node) {
 				// If the cue doesn't think it's active...
@@ -719,7 +717,7 @@ XMLHttpRequest:true, navigator:true */
 						if (cue.track.kind === "descriptions") {
 							// Append descriptions to the hidden descriptive canvas instead
 							// No styling required for these.
-							videoElement._descriptionContainerObject.appendChild(cueNode);
+							// videoElement._descriptionContainerObject.appendChild(cueNode);
 						} else {
 							// Append everything else to the main cue canvas.
 							videoElement._containerObject.appendChild(cueNode);
@@ -822,7 +820,7 @@ XMLHttpRequest:true, navigator:true */
 			cueBackgroundColour = options.cueBackgroundColour;
 		}
 
-		videoElement.addTextTrack = function(id, kind, label, language, src, type, isDefault) {
+		captionator.addTextTrack = function(id, kind, label, language, src, type, isDefault) {
 			var allowedKinds = ["subtitles", "captions", "descriptions", "captions", "metadata", "chapters"]; // WHATWG SPEC
 			var newTrack;
 			id = typeof(id) === "string" ? id : "";
@@ -1292,6 +1290,7 @@ XMLHttpRequest:true, navigator:true */
 			}
 
 			[].slice.call(videoElement.querySelectorAll("track"), 0).forEach(function(trackElement) {
+				console.debug("ttml.js:1293 ", trackElement);
 				var sources = null;
 				if (trackElement.querySelectorAll("source").length > 0) {
 					sources = trackElement.querySelectorAll("source");
@@ -1299,7 +1298,7 @@ XMLHttpRequest:true, navigator:true */
 					sources = trackElement.getAttribute("src");
 				}
 
-				var trackObject = videoElement.addTextTrack(
+				var trackObject = captionator.addTextTrack(
 					(trackElement.getAttribute("id") || captionator.generateID()),
 					trackElement.getAttribute("kind"),
 					trackElement.getAttribute("label"),
@@ -1828,7 +1827,7 @@ XMLHttpRequest:true, navigator:true */
 			characterX = 0;
 			characterY = 0;
 
-			characters.forEach(function(characterSpan, characterCount) {
+			characters.forEach(function(characterSpan) {
 				if (cueObject.direction === "vertical-lr") {
 					characterX = verticalPixelLineHeight * currentLine;
 				} else {
@@ -1898,7 +1897,6 @@ XMLHttpRequest:true, navigator:true */
 				}[cueObject.alignment];
 			}
 		}
-
 		captionator.applyStyles(DOMNode, {
 			"position": "absolute",
 			"overflow": "hidden",
@@ -2002,40 +2000,6 @@ XMLHttpRequest:true, navigator:true */
 		if (videoElement._containerObject) {
 			containerObject = videoElement._containerObject;
 			containerID = containerObject.id;
-		}
-
-		if (videoElement._descriptionContainerObject) {
-			descriptionContainerObject = videoElement._descriptionContainerObject;
-			descriptionContainerID = descriptionContainerObject.id;
-		}
-
-		if (!descriptionContainerObject) {
-			// Contain hidden descriptive captions
-			descriptionContainerObject = document.createElement("div");
-			descriptionContainerObject.className = "captionator-cue-descriptive-container";
-			descriptionContainerID = captionator.generateID();
-			descriptionContainerObject.id = descriptionContainerID;
-			videoElement._descriptionContainerObject = descriptionContainerObject;
-
-			// ARIA LIVE for descriptive text
-			descriptionContainerObject.setAttribute("aria-live", "polite");
-			descriptionContainerObject.setAttribute("aria-atomic", "true");
-			descriptionContainerObject.setAttribute("role", "region");
-
-			// Stick it in the body
-			document.body.appendChild(descriptionContainerObject);
-
-			// Hide the descriptive canvas...
-			captionator.applyStyles(descriptionContainerObject, {
-				"position": "absolute",
-				"overflow": "hidden",
-				"width": "1px",
-				"height": "1px",
-				"opacity": "0",
-				"textIndent": "-999em"
-			});
-		} else if (!descriptionContainerObject.parentNode) {
-			document.body.appendChild(descriptionContainerObject);
 		}
 
 		if (!containerObject) {
