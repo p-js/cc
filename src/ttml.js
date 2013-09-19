@@ -5,9 +5,8 @@
 
 	https://github.com/cgiffard/Captionator
 */
-/* global HTMLVideoElement: true, HTMLElement: true, document:true, window:true, 
-XMLHttpRequest:true, navigator:true */
-/*jshint strict:true */
+/* global HTMLVideoElement: true, document:true, window:true, XMLHttpRequest:true, navigator:true */
+/* jshint strict:true */
 /*Tab indented, tab = 4 spaces*/
 
 
@@ -22,7 +21,6 @@ XMLHttpRequest:true, navigator:true */
 	var lineHeightRatio = 1.5; //	Caption line height is 1.3 times the font size
 	//mtvn made background a bit darker
 	var cueBackgroundColour = [0, 0, 0, 0.7]; //	R,G,B,A
-	var objectsCreated = false; //	We don't want to create objects twice, or instanceof won't work
 
 	var captionator = {};
 	window.captionator = captionator;
@@ -485,11 +483,6 @@ XMLHttpRequest:true, navigator:true */
 		this.onexit = function() {};
 	};
 
-
-
-	/**
-	 * @constructor
-	 */
 	captionator.TextTrackCueList = function TextTrackCueList(track) {
 		this.track = track instanceof captionator.TextTrack ? track : null;
 
@@ -576,56 +569,19 @@ XMLHttpRequest:true, navigator:true */
 	captionator.ActiveTextTrackCueList.prototype = new captionator.TextTrackCueList(null);
 
 	/**
-	 * @constructor
-	 */
-	var VirtualMediaContainer = function(targetObject) {
-		this.targetObject = targetObject;
-		this.currentTime = 0;
-		var timeupdateEventHandler = function() {};
-
-		this.addEventListener = function(event, handler) {
-			if (event === "timeupdate" && handler instanceof Function) {
-				this.timeupdateEventHandler = handler;
-			}
-		};
-
-		this.attachEvent = function(event, handler) {
-			if (event === "timeupdate" && handler instanceof Function) {
-				this.timeupdateEventHandler = handler;
-			}
-		};
-
-		this.updateTime = function(newTime) {
-			if (!isNaN(newTime)) {
-				this.currentTime = newTime;
-				timeupdateEventHandler();
-			}
-		};
-	};
-
-	/*
-		captionator.rebuildCaptions(HTMLVideoElement videoElement)
-
 		Loops through all the TextTracks for a given element and manages their display (including generation of container elements.)
-
 		First parameter: HTMLVideoElement object with associated TextTracks
-
-		RETURNS:
-
-		Nothing.
-
 	*/
 	captionator.rebuildCaptions = function(videoElement) {
-		var trackList = videoElement._textTracks || [];
-		var currentTime = videoElement.currentTime;
-		var compositeActiveCues = [];
-		var cuesChanged = false;
-		var activeCueIDs = [];
-		var cueSortArray = [];
+		var trackList = videoElement._textTracks || [],
+			currentTime = videoElement.currentTime,
+			compositeActiveCues = [],
+			cuesChanged = false,
+			activeCueIDs = [],
+			cueSortArray = [];
 
 		// Work out what cues are showing...
 		trackList.forEach(function(track) {
-			console.debug("ttml.js:628 ", track);
 			if (track.mode === captionator.TextTrack.SHOWING && track.readyState === captionator.TextTrack.LOADED) {
 				cueSortArray = [].slice.call(track.activeCues, 0);
 
@@ -713,15 +669,8 @@ XMLHttpRequest:true, navigator:true */
 
 						// Mark cue as rendered
 						cue.rendered = true;
-
-						if (cue.track.kind === "descriptions") {
-							// Append descriptions to the hidden descriptive canvas instead
-							// No styling required for these.
-							// videoElement._descriptionContainerObject.appendChild(cueNode);
-						} else {
-							// Append everything else to the main cue canvas.
-							videoElement._containerObject.appendChild(cueNode);
-						}
+						// Append everything else to the main cue canvas.
+						videoElement._containerObject.appendChild(cueNode);
 
 					} else {
 
@@ -1146,11 +1095,12 @@ XMLHttpRequest:true, navigator:true */
 			};
 
 			var parseXMLChunk = function parseXMLChunk(xmlNode, index) {
-				var timeDataIn, timeDataOut, html, tmpCue, timeIn = 0,
-					timeOut = 0;
-				var timestampIn = String(xmlNode.getAttribute("begin"));
-				var timestampOut = String(xmlNode.getAttribute("end"));
-				var id = xmlNode.getAttribute("id") || index;
+				var html,
+					timeIn = 0,
+					timeOut = 0,
+					timestampIn = String(xmlNode.getAttribute("begin")),
+					timestampOut = String(xmlNode.getAttribute("end")),
+					id = xmlNode.getAttribute("id") || index;
 
 				timeIn = processTTMLTimestamp(timestampIn);
 				timeOut = processTTMLTimestamp(timestampOut);
@@ -1182,7 +1132,7 @@ XMLHttpRequest:true, navigator:true */
 				// We're dealing with a line-based format
 				// Check whether any of the lines match an LRC format
 
-				if (captionData.split(/\n+/g).reduce(function(prev, current, index, array) {
+				if (captionData.split(/\n+/g).reduce(function(prev, current) {
 					return prev || !! LRCTimestampParser.exec(current);
 				}, false)) {
 
@@ -1288,9 +1238,7 @@ XMLHttpRequest:true, navigator:true */
 			if (videoElement.id.length === 0) {
 				videoElement.id = captionator.generateID();
 			}
-
 			[].slice.call(videoElement.querySelectorAll("track"), 0).forEach(function(trackElement) {
-				console.debug("ttml.js:1293 ", trackElement);
 				var sources = null;
 				if (trackElement.querySelectorAll("source").length > 0) {
 					sources = trackElement.querySelectorAll("source");
@@ -1420,7 +1368,7 @@ XMLHttpRequest:true, navigator:true */
 				}
 			}, false);
 
-			window.addEventListener("resize", function(eventData) {
+			window.addEventListener("resize", function() {
 				videoElement._captionator_dirtyBit = true; // mark video as dirty, force captionator to rerender captions
 				captionator.rebuildCaptions(videoElement);
 			}, false);
@@ -1987,70 +1935,15 @@ XMLHttpRequest:true, navigator:true */
 
 	*/
 	captionator.styleCueCanvas = function(videoElement) {
-		var baseFontSize, baseLineHeight;
-		var containerObject, descriptionContainerObject;
-		var containerID, descriptionContainerID;
-		var options = videoElement._captionatorOptions instanceof Object ? videoElement._captionatorOptions : {};
+		var baseFontSize, baseLineHeight, containerObject, containerID;
 
-		// mtvn remove video element check.
-		//if (!(videoElement instanceof HTMLVideoElement)) {
-		//throw new Error("Cannot style a cue canvas for a non-video node!");
-		//}
+		if (!(videoElement instanceof HTMLVideoElement)) {
+			throw new Error("Cannot style a cue canvas for a non-video node!");
+		}
 
 		if (videoElement._containerObject) {
 			containerObject = videoElement._containerObject;
 			containerID = containerObject.id;
-		}
-
-		if (!containerObject) {
-			// visually display captions
-			containerObject = document.createElement("div");
-			containerObject.className = "captionator-cue-canvas";
-			containerID = captionator.generateID();
-			containerObject.id = containerID;
-
-			// We can choose to append the canvas to an element other than the body.
-			// If this option is specified, we no longer use the offsetTop/offsetLeft of the video
-			// to define the position, we just inherit it.
-			//
-			// options.appendCueCanvasTo can be an HTMLElement, or a DOM query.
-			// If the query fails, the canvas will be appended to the body as normal.
-			// If the query is successful, the canvas will be appended to the first matched element.
-
-			if (options.appendCueCanvasTo) {
-				var canvasParentNode = null;
-
-				if (options.appendCueCanvasTo instanceof HTMLElement) {
-					canvasParentNode = options.appendCueCanvasTo;
-				} else if (typeof(options.appendCueCanvasTo) === "string") {
-					try {
-						var canvasSearchResult = document.querySelectorAll(options.appendCueCanvasTo);
-						if (canvasSearchResult.length > 0) {
-							canvasParentNode = canvasSearchResult[0];
-						} else {
-							throw null; /* Bounce to catch */
-						}
-					} catch (error) {
-						canvasParentNode = document.body;
-						options.appendCueCanvasTo = false;
-					}
-				} else {
-					canvasParentNode = document.body;
-					options.appendCueCanvasTo = false;
-				}
-
-				canvasParentNode.appendChild(containerObject);
-			} else {
-				document.body.appendChild(containerObject);
-			}
-
-			videoElement._containerObject = containerObject;
-
-			// No aria live, as descriptions aren't placed in this container.
-			// containerObject.setAttribute("role","region");
-
-		} else if (!containerObject.parentNode) {
-			document.body.appendChild(containerObject);
 		}
 
 		// Set up the cue canvas
@@ -2072,8 +1965,8 @@ XMLHttpRequest:true, navigator:true */
 			"-webkit-transition": "-webkit-transform 0.5s ease",
 			//"height": (videoMetrics.height - videoMetrics.controlHeight) + "px",
 			//"width": videoMetrics.width + "px",
-			"top": (options.appendCueCanvasTo ? 0 : videoMetrics.top) + "px",
-			"left": (options.appendCueCanvasTo ? 0 : videoMetrics.left) + "px",
+			"top": videoMetrics.top + "px",
+			"left": videoMetrics.left + "px",
 			"color": "white",
 			"fontFamily": "Verdana, Helvetica, Arial, sans-serif",
 			"fontSize": baseFontSize + "pt",
