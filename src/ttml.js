@@ -846,8 +846,7 @@
 					stack = [],
 					stackIndex = 0,
 					chunkTimestamp,
-					timeData,
-					lastCueTime; // Useful for LRC, which does not specify an end time
+					timeData;
 
 				var hasRealTextContent = function(textInput) {
 					return !!textInput.replace(/[^a-z0-9]+/ig, "").length;
@@ -1045,7 +1044,7 @@
 				// Consolidate cue settings, convert defaults to object
 				var compositeCueSettings =
 					cueDefaults
-					.reduce(function(previous, current, index, array) {
+					.reduce(function(previous, current) {
 						previous[current.split(":")[0]] = current.split(":")[1];
 						return previous;
 					}, {});
@@ -1058,7 +1057,7 @@
 						return set && !! set.length;
 					})
 				// Convert array to a key/val object
-				.reduce(function(previous, current, index, array) {
+				.reduce(function(previous, current) {
 					previous[current.split(":")[0]] = current.split(":")[1];
 					return previous;
 				}, compositeCueSettings);
@@ -1238,118 +1237,91 @@
 			if (videoElement.id.length === 0) {
 				videoElement.id = captionator.generateID();
 			}
-			[].slice.call(videoElement.querySelectorAll("track"), 0).forEach(function(trackElement) {
-				var sources = null;
-				if (trackElement.querySelectorAll("source").length > 0) {
-					sources = trackElement.querySelectorAll("source");
-				} else {
-					sources = trackElement.getAttribute("src");
-				}
 
-				var trackObject = captionator.addTextTrack(
-					(trackElement.getAttribute("id") || captionator.generateID()),
-					trackElement.getAttribute("kind"),
-					trackElement.getAttribute("label"),
-					trackElement.getAttribute("srclang").split("-")[0],
-					sources,
-					trackElement.getAttribute("type"),
-					trackElement.hasAttribute("default")); // (Christopher) I think we can get away with this given it's a boolean attribute anyway
+			var trackConfig = videoElement._trackConfig;
 
-				trackElement.track = trackObject;
-				trackObject.trackNode = trackElement;
-				trackObject.videoNode = videoElement;
-				trackList.push(trackObject);
+			var trackObject = captionator.addTextTrack(
+				(trackConfig.id || captionator.generateID()),
+				trackConfig.kind,
+				trackConfig.label,
+				trackConfig.srclang,
+				trackConfig.src,
+				trackConfig.type);
 
-				// Now determine whether the track is visible by default.
-				// The comments in this section come straight from the spec...
-				var trackEnabled = false;
+			trackConfig.track = trackObject;
+			trackObject.trackNode = trackConfig;
+			trackObject.videoNode = videoElement;
+			trackList.push(trackObject);
 
-				// If the text track kind is subtitles or captions and the user has indicated an interest in having a track
-				// with this text track kind, text track language, and text track label enabled, and there is no other text track
-				// in the media element's list of text tracks with a text track kind of either subtitles or captions whose text track mode is showing
-				// ---> Let the text track mode be showing.
+			// Now determine whether the track is visible by default.
+			// The comments in this section come straight from the spec...
+			var trackEnabled = false;
 
-				if ((trackObject.kind === "subtitles" || trackObject.kind === "captions") &&
-					(defaultLanguage === trackObject.language && options.enableCaptionsByDefault)) {
-					if (!trackList.filter(function(trackObject) {
-						if ((trackObject.kind === "captions" || trackObject.kind === "subtitles") && defaultLanguage === trackObject.language && trackObject.mode === captionator.TextTrack.SHOWING) {
-							return true;
-						} else {
-							return false;
-						}
-					}).length) {
-						trackEnabled = true;
+			// If the text track kind is subtitles or captions and the user has indicated an interest in having a track
+			// with this text track kind, text track language, and text track label enabled, and there is no other text track
+			// in the media element's list of text tracks with a text track kind of either subtitles or captions whose text track mode is showing
+			// ---> Let the text track mode be showing.
+
+			if ((trackObject.kind === "subtitles" || trackObject.kind === "captions") &&
+				(defaultLanguage === trackObject.language && options.enableCaptionsByDefault)) {
+				if (!trackList.filter(function(trackObject) {
+					if ((trackObject.kind === "captions" || trackObject.kind === "subtitles") && defaultLanguage === trackObject.language && trackObject.mode === captionator.TextTrack.SHOWING) {
+						return true;
+					} else {
+						return false;
 					}
+				}).length) {
+					trackEnabled = true;
 				}
+			}
 
-				// If the text track kind is chapters and the text track language is one that the user agent has reason to believe is
-				// appropriate for the user, and there is no other text track in the media element's list of text tracks with a text track
-				// kind of chapters whose text track mode is showing
-				// ---> Let the text track mode be showing.
+			// If the text track kind is chapters and the text track language is one that the user agent has reason to believe is
+			// appropriate for the user, and there is no other text track in the media element's list of text tracks with a text track
+			// kind of chapters whose text track mode is showing
+			// ---> Let the text track mode be showing.
 
-				if (trackObject.kind === "chapters" && (defaultLanguage === trackObject.language)) {
-					if (!trackList.filter(function(trackObject) {
-						if (trackObject.kind === "chapters" && trackObject.mode === captionator.TextTrack.SHOWING) {
-							return true;
-						} else {
-							return false;
-						}
-					}).length) {
-						trackEnabled = true;
+			if (trackObject.kind === "chapters" && (defaultLanguage === trackObject.language)) {
+				if (!trackList.filter(function(trackObject) {
+					if (trackObject.kind === "chapters" && trackObject.mode === captionator.TextTrack.SHOWING) {
+						return true;
+					} else {
+						return false;
 					}
+				}).length) {
+					trackEnabled = true;
 				}
+			}
 
-				// If the text track kind is descriptions and the user has indicated an interest in having text descriptions
-				// with this text track language and text track label enabled, and there is no other text track in the media element's
-				// list of text tracks with a text track kind of descriptions whose text track mode is showing
+			// If the text track kind is descriptions and the user has indicated an interest in having text descriptions
+			// with this text track language and text track label enabled, and there is no other text track in the media element's
+			// list of text tracks with a text track kind of descriptions whose text track mode is showing
 
-				if (trackObject.kind === "descriptions" && (options.enableDescriptionsByDefault === true) && (defaultLanguage === trackObject.language)) {
-					if (!trackList.filter(function(trackObject) {
-						if (trackObject.kind === "descriptions" && trackObject.mode === captionator.TextTrack.SHOWING) {
-							return true;
-						} else {
-							return false;
-						}
-					}).length) {
-						trackEnabled = true;
+			if (trackObject.kind === "descriptions" && (options.enableDescriptionsByDefault === true) && (defaultLanguage === trackObject.language)) {
+				if (!trackList.filter(function(trackObject) {
+					if (trackObject.kind === "descriptions" && trackObject.mode === captionator.TextTrack.SHOWING) {
+						return true;
+					} else {
+						return false;
 					}
+				}).length) {
+					trackEnabled = true;
 				}
+			}
 
-				// If there is a text track in the media element's list of text tracks whose text track mode is showing by default,
-				// the user agent must furthermore change that text track's text track mode to hidden.
+			// If there is a text track in the media element's list of text tracks whose text track mode is showing by default,
+			// the user agent must furthermore change that text track's text track mode to hidden.
 
-				if (trackEnabled === true) {
-					trackList.forEach(function(trackObject) {
-						if (trackObject.trackNode.hasAttribute("default") && trackObject.mode === captionator.TextTrack.SHOWING) {
-							trackObject.mode = captionator.TextTrack.HIDDEN;
-						}
-					});
-				}
-
-				// If the track element has a default attribute specified, and there is no other text track in the media element's
-				// list of text tracks whose text track mode is showing or showing by default
-				// Let the text track mode be showing by default.
-
-				if (trackElement.hasAttribute("default")) {
-					if (!trackList.filter(function(trackObject) {
-						if (trackObject.trackNode.hasAttribute("default") && trackObject.trackNode !== trackElement) {
-							return true;
-						} else {
-							return false;
-						}
-					}).length) {
-						trackEnabled = true;
-						trackObject.internalDefault = true;
+			if (trackEnabled === true) {
+				trackList.forEach(function(trackObject) {
+					if (trackObject.trackNode.hasAttribute("default") && trackObject.mode === captionator.TextTrack.SHOWING) {
+						trackObject.mode = captionator.TextTrack.HIDDEN;
 					}
-				}
+				});
+			}
 
-				// Otherwise
-				// Let the text track mode be disabled.
-
-				if (trackEnabled === true) {
-					trackObject.mode = captionator.TextTrack.SHOWING;
-				}
-			});
+			trackEnabled = true;
+			trackObject.internalDefault = true;
+			trackObject.mode = captionator.TextTrack.SHOWING;
 
 			videoElement.addEventListener("timeupdate", function(eventData) {
 				var videoElement = eventData.target;
