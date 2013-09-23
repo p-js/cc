@@ -578,12 +578,10 @@
 			cuesChanged = false,
 			activeCueIDs = [],
 			cueSortArray = [];
-
 		// Work out what cues are showing...
 		trackList.forEach(function(track) {
 			if (track.mode === captionator.TextTrack.SHOWING && track.readyState === captionator.TextTrack.LOADED) {
 				cueSortArray = [].slice.call(track.activeCues, 0);
-
 				// Do a reverse sort
 				// Since the available cue render area is a square which decreases in size
 				// (away from each side of the video) with each successive cue added,
@@ -607,7 +605,6 @@
 			return cue.track.id + "." + cue.id + ":" + cue.text.toString(currentTime).length;
 		});
 		cuesChanged = !captionator.compareArray(activeCueIDs, videoElement._captionator_previousActiveCues);
-
 		// If they've changed, we re-render our cue canvas.
 		if (cuesChanged || videoElement._captionator_dirtyBit) {
 			// If dirty bit was set, it certainly isn't now.
@@ -643,7 +640,6 @@
 			// Now we render the cues
 			compositeActiveCues.forEach(function(cue) {
 				var cueNode, cueInner;
-
 				if (cue.track.kind !== "metadata" && cue.mode !== captionator.TextTrack.HIDDEN) {
 
 					if (!cue.rendered) {
@@ -1234,7 +1230,7 @@
 				trackConfig.srclang,
 				trackConfig.src,
 				trackConfig.type);
-
+			trackObject.onerror = trackConfig.onError;
 			trackConfig.track = trackObject;
 			trackObject.videoElement = videoElement;
 
