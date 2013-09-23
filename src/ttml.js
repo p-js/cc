@@ -11,7 +11,6 @@
 
 
 /* Build date: Wed Feb 22 2012 16:44:27 GMT+1100 (EST) */
-
 (function() {
 	"use strict";
 	//	Variables you might want to tweak
@@ -747,7 +746,6 @@
 	*/
 	captionator.captionify = function(videoElement, defaultLanguage, options) {
 		options = options ? options : {};
-
 		// Override defaults if options are present...
 		if (options.minimumFontSize && typeof(options.minimumFontSize) === "number") {
 			minimumFontSize = options.minimumFontSize;
@@ -770,29 +768,20 @@
 		}
 
 		captionator.addTextTrack = function(id, kind, label, language, src, type, isDefault) {
-			var allowedKinds = ["subtitles", "captions", "descriptions", "captions", "metadata", "chapters"]; // WHATWG SPEC
 			var newTrack;
 			id = typeof(id) === "string" ? id : "";
 			label = typeof(label) === "string" ? label : "";
 			language = typeof(language) === "string" ? language : "";
 			isDefault = typeof(isDefault) === "boolean" ? isDefault : false; // Is this track set as the default?
-
-			// If the kind isn't known, throw DOM syntax error exception
-			if (!allowedKinds.filter(function(currentKind) {
-				return kind === currentKind ? true : false;
-			}).length) {
-				throw captionator.createDOMException(12, "DOMException 12: SYNTAX_ERR: You must use a valid kind when creating a TimedTextTrack.", "SYNTAX_ERR");
-			} else {
-				newTrack = new captionator.TextTrack(id, kind, label, language, src, null);
-				if (newTrack) {
-					if (!(videoElement._textTracks instanceof Array)) {
-						videoElement._textTracks = [];
-					}
-					videoElement._textTracks.push(newTrack);
-					return newTrack;
-				} else {
-					return false;
+			newTrack = new captionator.TextTrack(id, kind, label, language, src, null);
+			if (newTrack) {
+				if (!(videoElement._textTracks instanceof Array)) {
+					videoElement._textTracks = [];
 				}
+				videoElement._textTracks.push(newTrack);
+				return newTrack;
+			} else {
+				return false;
 			}
 		};
 		captionator.processVideoElement(videoElement, options);
