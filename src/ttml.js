@@ -217,8 +217,8 @@
 					}
 
 					// Refresh all captions on video
-					this.videoNode._captionator_dirtyBit = true;
-					captionator.rebuildCaptions(this.videoNode);
+					this.videoElement._captionator_dirtyBit = true;
+					captionator.rebuildCaptions(this.videoElement);
 
 					if (value === captionator.TextTrack.OFF) {
 						// make sure the resource is reloaded next time (Is this correct behaviour?)
@@ -265,7 +265,7 @@
 				ajaxObject.onreadystatechange = function() {
 					if (ajaxObject.readyState === 4) {
 						if (ajaxObject.status === 200) {
-							var TrackProcessingOptions = currentTrackElement.videoNode._captionatorOptions || {};
+							var TrackProcessingOptions = currentTrackElement.videoElement._captionatorOptions || {};
 							if (currentTrackElement.kind === "metadata") {
 								// People can load whatever data they please into metadata tracks.
 								// Don't process it.
@@ -277,8 +277,8 @@
 							currentTrackElement.readyState = captionator.TextTrack.LOADED;
 							currentTrackElement.cues.loadCues(captionData);
 							currentTrackElement.activeCues.refreshCues.apply(currentTrackElement.activeCues);
-							currentTrackElement.videoNode._captionator_dirtyBit = true;
-							captionator.rebuildCaptions(currentTrackElement.videoNode);
+							currentTrackElement.videoElement._captionator_dirtyBit = true;
+							captionator.rebuildCaptions(currentTrackElement.videoElement);
 							currentTrackElement.onload.call(this);
 
 							if (callback instanceof Function) {
@@ -440,7 +440,7 @@
 			if (this.track instanceof captionator.TextTrack) {
 				if ((this.track.mode === captionator.TextTrack.SHOWING || this.track.mode === captionator.TextTrack.HIDDEN) && this.track.readyState === captionator.TextTrack.LOADED) {
 					try {
-						currentTime = this.track.videoNode.currentTime;
+						currentTime = this.track.videoElement.currentTime;
 
 						if (this.startTime <= currentTime && this.endTime >= currentTime) {
 							// Fire enter event if we were not active and now are
@@ -795,7 +795,7 @@
 				}
 			}
 		};
-		captionator.processVideoElement(videoElement, defaultLanguage, options);
+		captionator.processVideoElement(videoElement, options);
 	};
 
 	/*
@@ -1204,7 +1204,6 @@
 
 	/*
 		captionator.processVideoElement(videoElement <HTMLVideoElement>,
-								[defaultLanguage - string in BCP47],
 								[options - JS Object])
 
 		Processes track items within an HTMLVideoElement. The second and third parameter are both optional.
@@ -1224,8 +1223,7 @@
 
 	*/
 
-	captionator.processVideoElement = function(videoElement, defaultLanguage, options) {
-		var trackList = [];
+	captionator.processVideoElement = function(videoElement, options) {
 		options = options instanceof Object ? options : {};
 
 		if (!videoElement.captioned) {
@@ -1249,77 +1247,8 @@
 				trackConfig.type);
 
 			trackConfig.track = trackObject;
-			trackObject.trackNode = trackConfig;
-			trackObject.videoNode = videoElement;
-			trackList.push(trackObject);
+			trackObject.videoElement = videoElement;
 
-			// Now determine whether the track is visible by default.
-			// The comments in this section come straight from the spec...
-			var trackEnabled = false;
-
-			// If the text track kind is subtitles or captions and the user has indicated an interest in having a track
-			// with this text track kind, text track language, and text track label enabled, and there is no other text track
-			// in the media element's list of text tracks with a text track kind of either subtitles or captions whose text track mode is showing
-			// ---> Let the text track mode be showing.
-
-			if ((trackObject.kind === "subtitles" || trackObject.kind === "captions") &&
-				(defaultLanguage === trackObject.language && options.enableCaptionsByDefault)) {
-				if (!trackList.filter(function(trackObject) {
-					if ((trackObject.kind === "captions" || trackObject.kind === "subtitles") && defaultLanguage === trackObject.language && trackObject.mode === captionator.TextTrack.SHOWING) {
-						return true;
-					} else {
-						return false;
-					}
-				}).length) {
-					trackEnabled = true;
-				}
-			}
-
-			// If the text track kind is chapters and the text track language is one that the user agent has reason to believe is
-			// appropriate for the user, and there is no other text track in the media element's list of text tracks with a text track
-			// kind of chapters whose text track mode is showing
-			// ---> Let the text track mode be showing.
-
-			if (trackObject.kind === "chapters" && (defaultLanguage === trackObject.language)) {
-				if (!trackList.filter(function(trackObject) {
-					if (trackObject.kind === "chapters" && trackObject.mode === captionator.TextTrack.SHOWING) {
-						return true;
-					} else {
-						return false;
-					}
-				}).length) {
-					trackEnabled = true;
-				}
-			}
-
-			// If the text track kind is descriptions and the user has indicated an interest in having text descriptions
-			// with this text track language and text track label enabled, and there is no other text track in the media element's
-			// list of text tracks with a text track kind of descriptions whose text track mode is showing
-
-			if (trackObject.kind === "descriptions" && (options.enableDescriptionsByDefault === true) && (defaultLanguage === trackObject.language)) {
-				if (!trackList.filter(function(trackObject) {
-					if (trackObject.kind === "descriptions" && trackObject.mode === captionator.TextTrack.SHOWING) {
-						return true;
-					} else {
-						return false;
-					}
-				}).length) {
-					trackEnabled = true;
-				}
-			}
-
-			// If there is a text track in the media element's list of text tracks whose text track mode is showing by default,
-			// the user agent must furthermore change that text track's text track mode to hidden.
-
-			if (trackEnabled === true) {
-				trackList.forEach(function(trackObject) {
-					if (trackObject.trackNode.hasAttribute("default") && trackObject.mode === captionator.TextTrack.SHOWING) {
-						trackObject.mode = captionator.TextTrack.HIDDEN;
-					}
-				});
-			}
-
-			trackEnabled = true;
 			trackObject.internalDefault = true;
 			trackObject.mode = captionator.TextTrack.SHOWING;
 
@@ -1485,7 +1414,7 @@
 	};
 
 	/*
-		captionator.styleCue(DOMNode, cueObject, videoNode)
+		captionator.styleCue(DOMNode, cueObject, videoElement)
 
 		Styles and positions cue nodes according to the WebVTT specification.
 
