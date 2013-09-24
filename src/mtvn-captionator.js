@@ -1823,10 +1823,6 @@
 	captionator.styleCueCanvas = function(videoElement) {
 		var baseFontSize, baseLineHeight, containerObject, containerID;
 
-		if (!(videoElement instanceof HTMLVideoElement)) {
-			throw new Error("Cannot style a cue canvas for a non-video node!");
-		}
-
 		if (videoElement._containerObject) {
 			containerObject = videoElement._containerObject;
 			containerID = containerObject.id;
