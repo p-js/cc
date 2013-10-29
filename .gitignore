@@ -1,8 +1,8 @@
 .classpath
 .project
 .settings/
-/build
 /node_modules
 npm-debug.log
 /components/
 /temp
+/.build
