@@ -19,8 +19,11 @@
 	var fontSizeVerticalPercentage = 4.5; //	Caption font size is 4.5% of the video height
 	var lineHeightRatio = 1.5; //	Caption line height is 1.3 times the font size
 	//mtvn made background a bit darker
-	var cueBackgroundColour = [0, 0, 0, 0.7]; //	R,G,B,A
-
+	var fontColor = "white",
+		fontFamily = "Verdana, Helvetica, Arial, sans-serif", 
+		backgroundColor = "black", 
+		fontSize;
+	
 	var captionator = {};
 	window.captionator = captionator;
 
@@ -185,6 +188,7 @@
 	 * @constructor
 	 */
 	captionator.TextTrack = function TextTrack(id, kind, label, language, trackSource, isDefault) {
+		
 		this.onload = function() {};
 		this.onerror = function() {};
 		this.oncuechange = function() {};
@@ -210,7 +214,6 @@
 			if (allowedModes.indexOf(value) !== -1) {
 				if (value !== this.internalMode) {
 					this.internalMode = value;
-
 					if (this.readyState === captionator.TextTrack.NONE && this.src.length > 0 && value > captionator.TextTrack.OFF) {
 						this.loadTrack(this.src, null);
 					}
@@ -250,6 +253,7 @@
 		}
 
 		this.loadTrack = function(source, callback) {
+			// console.log("loadTrack", arguments);
 			var captionData, ajaxObject = new XMLHttpRequest();
 			if (this.readyState === captionator.TextTrack.LOADED) {
 				if (callback instanceof Function) {
@@ -699,7 +703,7 @@
 		var lines = text.split("<br/>");
 		if (lines.length > 0) {
 			for (var i = lines.length; i--;) {
-				lines[i] = "<span style=\"background-color:#000;padding:2px 9px 4px 10px;\">" + lines[i] + "</span>";
+				lines[i] = "<span style=\"background-color:" + backgroundColor + ";padding:2px 9px 4px 10px;\">" + lines[i] + "</span>";
 			}
 			text = lines.join("<br/>");
 		}
@@ -757,10 +761,6 @@
 
 		if (options.lineHeightRatio && typeof(options.lineHeightRatio) !== "number") {
 			lineHeightRatio = options.lineHeightRatio;
-		}
-
-		if (options.cueBackgroundColour && options.cueBackgroundColour instanceof Array) {
-			cueBackgroundColour = options.cueBackgroundColour;
 		}
 
 		captionator.addTextTrack = function(id, kind, label, language, src, type, isDefault) {
@@ -1222,7 +1222,7 @@
 			}
 
 			var trackConfig = videoElement._trackConfig;
-
+			// console.log("track", trackConfig);
 			var trackObject = captionator.addTextTrack(
 				(trackConfig.id || captionator.generateID()),
 				trackConfig.kind,
@@ -1740,7 +1740,6 @@
 			"left": cueX + "px",
 			"padding": cuePaddingTB + "px " + cuePaddingLR + "px",
 			"textAlign": cueAlignment,
-			//"backgroundColor": "rgba(" + cueBackgroundColour.join(",") + ")",
 			"direction": captionator.checkDirection(String(cueObject.text)),
 			"lineHeight": baseLineHeight + "pt",
 			"boxSizing": "border-box"
@@ -1806,6 +1805,15 @@
 				videoElement._captionator_availableCueArea.top;
 		}
 	};
+	
+	captionator.updateCCPrefs = function(videoElement, styles){
+		styles = styles || {};
+		fontColor = styles.color || fontColor;
+		fontSize = styles.fontSize || fontSize;
+		backgroundColor = styles.backgroundColor || backgroundColor;
+		fontFamily = styles.fontFamily || fontFamily;
+		captionator.styleCueCanvas(videoElement);
+	};
 
 	/*
 		captionator.styleCueCanvas(VideoNode)
@@ -1836,7 +1844,7 @@
 		baseFontSize = baseFontSize >= minimumFontSize ? baseFontSize : minimumFontSize;
 		baseLineHeight = Math.floor(baseFontSize * lineHeightRatio);
 		baseLineHeight = baseLineHeight > minimumLineHeight ? baseLineHeight : minimumLineHeight;
-
+		//console.log("updating", fontColor, fontFamily);
 		// Style node!
 		captionator.applyStyles(containerObject, {
 			"position": "absolute",
@@ -1849,8 +1857,8 @@
 			//"width": videoMetrics.width + "px",
 			"top": videoMetrics.top + "px",
 			"left": videoMetrics.left + "px",
-			"color": "white",
-			"fontFamily": "Verdana, Helvetica, Arial, sans-serif",
+			"color": fontColor,
+			"fontFamily": fontFamily,
 			"fontSize": baseFontSize + "pt",
 			"lineHeight": baseLineHeight + "pt",
 			"boxSizing": "border-box"
