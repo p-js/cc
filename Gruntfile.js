@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            folder: ["dist/*", "build/*"]
+            folder: ["dist/*"]
         },
         uglify: {
             all: {
@@ -39,13 +39,15 @@ module.exports = function(grunt) {
         bump: {
             files: ['package.json', 'bower.json']
         },
-        copy: {
-            build: {
-                src: "dist/**/*",
-                dest: 'build/<%= grunt.config("dirname") %><%= pkg.version %><%= grunt.config("buildNumber") %>/',
-                flatten: true,
-                expand: true
-
+         push_svn: {
+            options: {
+                trymkdir: true,
+                remove: false
+            },
+            release: {
+                src: "./dist",
+                dest: '<%= grunt.config("svnDir") %>/<%= pkg.version %><%= grunt.config("buildNumber") %>',
+                tmp: './.build'
             }
         },
         watch: {
@@ -53,19 +55,20 @@ module.exports = function(grunt) {
             tasks: ['default']
         }
     });
+    grunt.registerTask('deploy', 'deploy to svn', function() {
+        grunt.config("svnDir", grunt.option("dir"));
+        if (grunt.option("build")) {
+            grunt.config("buildNumber", "-" + grunt.option("build"));
+        }
+        grunt.task.run("push_svn");
+    });
     grunt.loadNpmTasks('grunt-rigger');
-    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks("grunt-push-svn");
     grunt.loadNpmTasks('grunt-bumpx');
-    grunt.registerTask('dirname', 'run before release task: set a subdirectory name, result will be build/subdirectory(s)', function(dir) {
-        grunt.config("dirname", dir.lastIndexOf("/") !== dir.length - 1 ? dir + "/" : dir);
-    });
-    grunt.registerTask('buildNumber', 'run before release task: append a build number to the build', function(buildNumber) {
-        grunt.config("buildNumber", "-" + buildNumber);
-    });
     grunt.registerTask('default', ['clean', 'jshint:devel', 'rig']);
-    grunt.registerTask('release', ['clean', 'jshint:devel', 'rig', 'uglify', 'copy']);
+    grunt.registerTask('release', ['clean', 'jshint:devel', 'rig', 'uglify']);
 };

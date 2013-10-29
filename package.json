@@ -1,22 +1,23 @@
 {
-    "name": "mtvn-captionator",
-    "version": "0.1.0",
-    "author": "gianni ferullo <giannif@gmail.com>",
-    "description": "captionator with ttml closed captions only",
-    "repository": {
-        "type": "git",
-        "url": "https://p-js@github.com/p-js/cc.git"
-    },
-    "devDependencies": {
-        "grunt": "0.4.x",
-        "grunt-contrib": "0.4.x",
-        "grunt-rigger": "git://github.com/giannif/grunt-rigger.git",
-        "grunt-contrib-uglify": "*",
-        "grunt-contrib-watch": "~0.3.1",
-        "grunt-contrib-jshint": "~0.4.3",
-        "grunt-contrib-clean": "~0.4.1",
-        "grunt-contrib-copy": "~0.4.1",
-        "grunt-bumpx": "~0.1.5"
-    },
-    "main": "./dist/cc.js"
+  "name": "mtvn-captionator",
+  "version": "0.1.0",
+  "author": "gianni ferullo <giannif@gmail.com>",
+  "description": "captionator with ttml closed captions only",
+  "repository": {
+    "type": "git",
+    "url": "https://p-js@github.com/p-js/cc.git"
+  },
+  "devDependencies": {
+    "grunt": "0.4.x",
+    "grunt-contrib": "0.4.x",
+    "grunt-rigger": "git://github.com/giannif/grunt-rigger.git",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "~0.3.1",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-bumpx": "~0.1.5",
+    "grunt-push-svn": "~0.1.8"
+  },
+  "main": "./dist/cc.js"
 }
