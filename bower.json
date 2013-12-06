@@ -1,6 +1,6 @@
 {
     "name": "mtvn-captionator",
-    "version": "0.2.0",
+    "version": "0.1.2",
     "author": "gianni ferullo <giannif@gmail.com>",
     "main": [
         "./dist/cc.js"
