@@ -2,29 +2,27 @@
     Captionator 0.6 [CaptionPlanet]
 	Christopher Giffard, 2011
 	Share and enjoy
-
 	https://github.com/cgiffard/Captionator
 */
-/* global HTMLVideoElement: true, document:true, window:true, XMLHttpRequest:true, navigator:true */
 /* jshint strict:true */
-/*Tab indented, tab = 4 spaces*/
-
-
-/* Build date: Wed Feb 22 2012 16:44:27 GMT+1100 (EST) */
+/* global $ */
 (function() {
 	"use strict";
 	//	Variables you might want to tweak
-	var minimumFontSize = 10; //	We don't want the type getting any smaller than this.
-	var minimumLineHeight = 16; //	As above, in points
-	var fontSizeVerticalPercentage = 4.5; //	Caption font size is 4.5% of the video height
-	var lineHeightRatio = 1.5; //	Caption line height is 1.3 times the font size
-	//mtvn made background a bit darker
-	var fontColor = "white",
-		fontFamily = "Verdana, Helvetica, Arial, sans-serif", 
-		backgroundColor = "black", 
-		fontSize;
-	
-	var captionator = {};
+	var minimumFontSize = 10, //	We don't want the type getting any smaller than this.
+		minimumLineHeight = 16, //	As above, in points
+		fontSizeVerticalPercentage = 5.3, //	Caption font size is 5.3% of the video height
+		lineHeightRatio = 1.5, //	Caption line height is 1.5 times the font size
+		mtvnStyles = {
+			containerCSS: {
+				color: "white",
+				fontFamily: "serif, sans-serif, monospace",
+				backgroundColor: "black"
+			},
+			testCSS: {}
+		},
+		captionator = {};
+	// export
 	window.captionator = captionator;
 
 	var mtvnProcessTTS = function(cueSplit) {
@@ -188,7 +186,7 @@
 	 * @constructor
 	 */
 	captionator.TextTrack = function TextTrack(id, kind, label, language, trackSource, isDefault) {
-		
+
 		this.onload = function() {};
 		this.onerror = function() {};
 		this.oncuechange = function() {};
@@ -253,7 +251,6 @@
 		}
 
 		this.loadTrack = function(source, callback) {
-			// console.log("loadTrack", arguments);
 			var captionData, ajaxObject = new XMLHttpRequest();
 			if (this.readyState === captionator.TextTrack.LOADED) {
 				if (callback instanceof Function) {
@@ -665,11 +662,11 @@
 						cueNode.currentText = cue.text.toString(currentTime);
 
 						cueInner.innerHTML = captionator.mtvnProcessOutput(cueNode.currentText);
-
 						// Mark cue as rendered
 						cue.rendered = true;
 						// Append everything else to the main cue canvas.
 						videoElement._containerObject.appendChild(cueNode);
+						captionator.updateSpanStyles($(videoElement._containerObject));
 
 					} else {
 
@@ -699,13 +696,15 @@
 		if (!text) {
 			return "";
 		}
-		text = text.replace("<br>", "<br/>").replace("</br>", "").replace("<br />", "<br/>");
-		var lines = text.split("<br/>");
+		text = text.replace("<br/>", "<br>").replace("</br>", "").replace("<br />", "<br/>");
+		// can we even do this hack?
+		text = text.replace("<br>", "</span><br><span>");
+		var lines = text.split("<br>");
 		if (lines.length > 0) {
-			for (var i = lines.length; i--;) {
-				lines[i] = "<span style=\"background-color:" + backgroundColor + ";padding:2px 9px 4px 10px;\">" + lines[i] + "</span>";
-			}
-			text = lines.join("<br/>");
+			$.each(lines, function(index, line) {
+				lines[index] = "<span class=\"mtvn-cue\"><span class=\"mtvn-cue-text\">" + line + "</span></span>";
+			});
+			text = lines.join("<br>");
 		}
 		return text.replace(/&lt;/g, "<")
 			.replace(/&gt;/g, ">").replace(/&amp;/g, "&")
@@ -818,7 +817,6 @@
 		var WebVTTCOMMENTCueParser = /^(COMMENT|COMMENTS)\s+\-\-\>\s+(.*)/g;
 		var TTMLCheck = /<tt\s+xml/ig;
 		var TTMLTimestampParserAdv = /^(\d{2})?:?(\d{2}):(\d{2})\.(\d+)/;
-		var TTMLTimestampParserHuman = /^([\d\.]+)[smhdwy]/ig; // Under development, will need to study TTML spec more. :)
 
 		if (captionData) {
 			// This function parses and validates cue HTML/VTT tokens, and converts them into something understandable to the renderer.
@@ -1065,7 +1063,9 @@
 
 			var processTTMLTimestamp = function processTTMLTimestamp(timestamp) {
 				var timeData, timeValue = 0;
-				if (typeof(timestamp) !== "string") return 0;
+				if (typeof(timestamp) !== "string") {
+					return 0;
+				}
 
 				if ((timeData = TTMLTimestampParserAdv.exec(timestamp))) {
 					timeData = timeData.slice(1);
@@ -1222,7 +1222,6 @@
 			}
 
 			var trackConfig = videoElement._trackConfig;
-			// console.log("track", trackConfig);
 			var trackObject = captionator.addTextTrack(
 				(trackConfig.id || captionator.generateID()),
 				trackConfig.kind,
@@ -1433,21 +1432,19 @@
 		var characterX, characterY, characterPosition = 0;
 		var options = videoElement._captionatorOptions || {};
 		var videoMetrics;
-		var maxCueSize = 100,
-			internalTextPosition = 50,
+		var internalTextPosition = 50,
 			textBoundingBoxWidth = 0,
 			textBoundingBoxPercentage = 0,
 			autoSize = true;
 		var plainCueText = "",
 			plainCueTextContainer;
 
-		// In future, support cue-granular language detection method
-		var cueLanguage = cueObject.track.language;
-
 		// Function to facilitate vertical text alignments in browsers which do not support writing-mode
 		// (sadly, all the good ones!)
 		var spanify = function(DOMNode) {
-			if (DOMNode.spanified) return DOMNode.characterCount;
+			if (DOMNode.spanified) {
+				return DOMNode.characterCount;
+			}
 
 			var stringHasLength = function(textString) {
 				return !!textString.length;
@@ -1805,13 +1802,21 @@
 				videoElement._captionator_availableCueArea.top;
 		}
 	};
-	
-	captionator.updateCCPrefs = function(videoElement, styles){
-		styles = styles || {};
-		fontColor = styles.color || fontColor;
-		fontSize = styles.fontSize || fontSize;
-		backgroundColor = styles.backgroundColor || backgroundColor;
-		fontFamily = styles.fontFamily || fontFamily;
+	captionator.convertFontSizePercentage = function(percentage) {
+		switch (percentage) {
+			case "50%":
+				return 5.3 / 2;
+			case "150%":
+				return 5.3 * 1.5;
+			case "200%":
+				return 5.3 * 2;
+			default:
+				return 5.3;
+		}
+	};
+	captionator.updateCCPrefs = function(videoElement, options) {
+		mtvnStyles = options || mtvnStyles;
+		fontSizeVerticalPercentage = captionator.convertFontSizePercentage(mtvnStyles.fontSize);
 		captionator.styleCueCanvas(videoElement);
 	};
 
@@ -1829,39 +1834,58 @@
 
 	*/
 	captionator.styleCueCanvas = function(videoElement) {
-		var baseFontSize, baseLineHeight, containerObject, containerID;
+
+		var baseFontSize,
+			baseLineHeight,
+			containerObject,
+			$container,
+			containerID;
 
 		if (videoElement._containerObject) {
 			containerObject = videoElement._containerObject;
+			$container = $(containerObject);
 			containerID = containerObject.id;
 		}
 
 		// Set up the cue canvas
 		var videoMetrics = captionator.getNodeMetrics(videoElement);
-
-		// Set up font metrics
 		baseFontSize = ((videoMetrics.height * (fontSizeVerticalPercentage / 100)) / 96) * 72;
 		baseFontSize = baseFontSize >= minimumFontSize ? baseFontSize : minimumFontSize;
-		baseLineHeight = Math.floor(baseFontSize * lineHeightRatio);
+		baseLineHeight = Math.floor(parseFloat(baseFontSize, 10) * lineHeightRatio);
 		baseLineHeight = baseLineHeight > minimumLineHeight ? baseLineHeight : minimumLineHeight;
-		//console.log("updating", fontColor, fontFamily);
-		// Style node!
-		captionator.applyStyles(containerObject, {
-			"position": "absolute",
-			"overflow": "hidden",
-			"zIndex": 100,
+		$container.css({
+			"-webkit-transition": "-webkit-transform 0.5s ease",
+			position: "absolute",
+			overflow: "hidden",
+			// fill the screen, since we're in an iframe or a container div.
 			width: "100%",
 			height: "100%",
-			"-webkit-transition": "-webkit-transform 0.5s ease",
-			//"height": (videoMetrics.height - videoMetrics.controlHeight) + "px",
-			//"width": videoMetrics.width + "px",
-			"top": videoMetrics.top + "px",
-			"left": videoMetrics.left + "px",
-			"color": fontColor,
-			"fontFamily": fontFamily,
-			"fontSize": baseFontSize + "pt",
-			"lineHeight": baseLineHeight + "pt",
-			"boxSizing": "border-box"
+			top: 0,
+			left: 0,
+			color: mtvnStyles.fontColor,
+			fontFamily: mtvnStyles.fontFamily,
+			fontSize: baseFontSize + "pt",
+			boxSizing: "border-box"	
+		});
+		$container.find(".captionator-cue").css({
+			lineHeight: baseLineHeight + "pt"
+		});
+		captionator.updateSpanStyles($container);
+	};
+
+	captionator.updateSpanStyles = function($container) {
+		var styles = $.extend({}, mtvnStyles.containerCSS);
+		delete styles.fontSize;
+		delete styles.fontFamily;
+		styles.padding = "2px 9px 4px 10px";
+		$.each($container.find('.mtvn-cue'), function(key, cue) {
+			$(cue).css(styles);
+		});
+		styles = $.extend({}, mtvnStyles.textCSS);
+		delete styles.fontSize;
+		delete styles.fontFamily;
+		$.each($container.find('.mtvn-cue-text'), function(key, cue) {
+			$(cue).css(styles);
 		});
 	};
 
