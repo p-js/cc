@@ -17,7 +17,7 @@
 			containerCSS: {
 				color: "white",
 				fontFamily: "serif, sans-serif, monospace",
-				backgroundColor: "black",
+				backgroundColor: "black"
 			},
 			testCSS: {}
 		},
