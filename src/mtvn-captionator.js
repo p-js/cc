@@ -3,6 +3,8 @@
 	Christopher Giffard, 2011
 	Share and enjoy
 	https://github.com/cgiffard/Captionator
+
+	built: <%=build%>
 */
 /* jshint strict:true */
 (function() {
@@ -65,35 +67,14 @@
 	captionator.updateCCPrefs = function(videoElement, options) {
 		mtvnStyles = options || mtvnStyles;
 		fontSizeVerticalPercentage = captionator.convertFontSizePercentage(mtvnStyles.fontSize);
-		captionator.styleCueCanvas(videoElement);
+		// mark video as dirty, force captionator to rerender captions
+		videoElement._captionator_dirtyBit = true;
+		captionator.rebuildCaptions(videoElement);
 	};
 
 	//= cue/style-cue-canvas.js
 
 	//= cue/update-span-styles.js
-
-	/*
-		Subclassing DOMException so we can reliably throw it without browser intervention. This is quite hacky. See SO post:
-		http://stackoverflow.com/questions/5136727/manually-artificially-throwing-a-domexception-with-javascript
-	*/
-	captionator.createDOMException = function(code, message, name) {
-		try {
-			//	Deliberately cause a DOMException error
-			document.querySelectorAll("div/[]");
-		} catch (Error) {
-			//	Catch it and subclass it
-			/**
-			 * @constructor
-			 */
-			var CustomDOMException = function CustomDOMException(code, message, name) {
-				this.code = code;
-				this.message = message;
-				this.name = name;
-			};
-			CustomDOMException.prototype = Error;
-			return new CustomDOMException(code, message, name);
-		}
-	};
 
 	/*
 		captionator.compareArray(array1, array2)

@@ -30,6 +30,12 @@ module.exports = function(grunt) {
             }
         },
         rig: {
+            options: {
+                processContent: true,
+                data: {
+                    build: '<%= grunt.template.today("mm/dd/yyyy hh:MM:ss TT") %>'
+                }
+            },
             all: {
                 files: {
                     "dist/<%=pkg.name%>.js": "src/<%=pkg.name%>.js"
@@ -39,7 +45,7 @@ module.exports = function(grunt) {
         bump: {
             files: ['package.json', 'bower.json']
         },
-         push_svn: {
+        push_svn: {
             options: {
                 trymkdir: true,
                 remove: false
