@@ -1,6 +1,6 @@
 {
     "name": "mtvn-captionator",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "author": "gianni ferullo <giannif@gmail.com>",
     "description": "captionator with ttml closed captions only",
     "repository": {

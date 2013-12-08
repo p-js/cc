@@ -4,7 +4,7 @@
 	Share and enjoy
 	https://github.com/cgiffard/Captionator
 
-	built: 12/08/2013 06:38:25 PM
+	built: 12/08/2013 06:42:54 PM
 */
 /* jshint strict:true */
 (function() {
