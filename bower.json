@@ -12,5 +12,8 @@
         "build",
         "node_modules",
         "components"
-    ]
+    ],
+    "dependencies": {
+        "zepto": "zepto#1.1.2"
+    }
 }

@@ -33,10 +33,14 @@
 	//= text-track/cue-list.js
 	//= text-track/active-cue-list.js
 	//= captions/rebuild.js
+	//= captions/rebuild-vtt.js
 	//= process-output.js
 
 
 	captionator.mtvnCaptionify = function(element, defaultLanguage) {
+		if(element.vtt){
+			captionator.rebuildCaptions = captionator.rebuildCaptionsVTT;
+		}
 		this.captionify(element, defaultLanguage, {
 			sizeCuesByTextBoundingBox: true,
 			sanitiseCueHTML: true,
@@ -65,6 +69,9 @@
 		}
 	};
 	captionator.updateCCPrefs = function(videoElement, options) {
+		if(videoElement.vtt){
+			return;
+		}
 		mtvnStyles = options || mtvnStyles;
 		fontSizeVerticalPercentage = captionator.convertFontSizePercentage(mtvnStyles.fontSize);
 		// mark video as dirty, force captionator to rerender captions
