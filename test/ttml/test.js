@@ -6,7 +6,7 @@ var TestCaptions = function(el, containerEl) {
     });
     el._containerObject = containerEl;
     el._trackConfig = {
-        src: "../test.xml"
+        src: "../ttml3.xml"
     };
     captionator.mtvnCaptionify(el);
 };

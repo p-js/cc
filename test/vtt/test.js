@@ -2,7 +2,7 @@
 /* exported TestCaptions */
 var TestCaptions = function(el) {
 	el._trackConfig = {
-		src: "../test.xml"
+		src: "../ttml3.xml"
 	};
 	el.vtt = true;
 	captionator.mtvnCaptionify(el);

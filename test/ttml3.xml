@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<tt xml:lang="" xmlns="http://www.w3.org/ns/ttml" xmlns:tts="http://www.w3.org/ns/ttml#styling" >
+<head>
+<styling>
+<style xml:id='defaultSpeaker' tts:fontFamily='monospace' tts:fontWeight='bold'  tts:backgroundColor='transparent' tts:color='#ffffff' />
+<style xml:id='block' tts:backgroundColor='#00000088' />
+<style xml:id='rollup' />
+</styling>
+<layout>
+<region xml:id='lowerThird' style='defaultSpeaker' >
+ <style tts:origin='10% 5%' tts:extent='80% 90%' tts:displayAlign='after' tts:textAlign='center' />
+</region>
+<region xml:id='middleThird' style='defaultSpeaker'>
+<style tts:origin='10% 5%' tts:extent='80% 90%' tts:displayAlign='center' tts:textAlign='center' />
+</region>
+<region xml:id='upperThird' style='defaultSpeaker'>
+<style tts:origin='10% 5%' tts:extent='80% 90%' tts:displayAlign='before' tts:textAlign='center' />
+</region>
+</layout>
+</head>
+<body tts:textAlign='center' region='lowerThird'>
+<div>
+<p begin='00:00:00.767' end='00:00:03.070' space='preserve'><span style='block'>&#x266A;MUSIC</span></p>
+<p begin='00:00:04.338' end='00:00:06.373' tts:textAlign='left'  space='preserve'><span style='block'>I AM AT THE LEFT<br/>OF THE SCREEN.</span></p>
+<p begin='00:00:06.373' end='00:00:08.008' tts:textAlign='left'  space='preserve'><span style='block'>SO CAPTIONS<br/>OF WHAT I SAY</span></p>
+<p begin='00:00:08.008' end='00:00:10.811' tts:textAlign='left'  space='preserve'><span style='block'>APPEAR AT THE LEFT<br/>OF THE SCREEN, TOO.</span></p>
+<p begin='00:00:13.280' end='00:00:15.182' tts:textAlign='right'   space='preserve'><span style='block'>NOW I&apos;M AT THE<br/>RIGHT OF THE SCREEN,</span></p>
+<p begin='00:00:15.182' end='00:00:17.985' tts:textAlign='right'   space='preserve'><span style='block'>SO MY CAPTIONS<br/>APPEAR AT THE RIGHT.</span></p>
+<p begin='00:00:18.952' end='00:00:20.053' space='preserve'><span style='block'> </span><span style='block' tts:fontStyle='italic'>NOW I AM OFF SCREEN.</span><span style='block'></span></p>
+<p begin='00:00:20.053' end='00:00:21.388' space='preserve'><span style='block'> </span><span style='block' tts:fontStyle='italic'>TO INDICATE</span><span style='block'><br/> </span><span style='block' tts:fontStyle='italic'>THAT I&apos;M OFF SCREEN,</span><span style='block'></span></p>
+<p begin='00:00:21.388' end='00:00:23.790' space='preserve'><span style='block'> </span><span style='block' tts:fontStyle='italic'>WHATEVER I SAY</span><span style='block'><br/> </span><span style='block' tts:fontStyle='italic'>IS ITALICIZED.</span><span style='block'></span></p>
+<p begin='00:00:24.558' end='00:00:26.994' region='upperThird'  space='preserve'><br/><span style='block'>NOW MY NAME APPEARS AT<br/>THE BOTTOM OF THE SCREEN,</span></p>
+<p begin='00:00:26.994' end='00:00:29.196' region='upperThird'  space='preserve'><br/><span style='block'>WE PUT CAPTIONS OF<br/>WHAT I SAY AT THE TOP,</span></p>
+<p begin='00:00:29.196' end='00:00:32.132' region='upperThird'  space='preserve'><br/><span style='block'>SO THAT MY NAME IS<br/>NOT COVERED BY CAPTIONS.</span></p>
+<p begin='00:00:32.132' end='00:00:33.133' space='preserve'><span style='block'>UP UNTIL NOW,</span></p>
+<p begin='00:00:33.133' end='00:00:35.669' space='preserve'><span style='block'>WE HAVE BEEN USING<br/>POP-ON CAPTIONS.</span></p>
+<p begin='00:00:35.669' end='00:00:37.404' space='preserve'><span style='block'>WHEN A NEW<br/>CAPTION POPS ON,</span></p>
+<p begin='00:00:37.404' end='00:00:39.640' space='preserve'><span style='block'>THE OLD CAPTION<br/>DISAPPEARS.</span></p>
+<p begin='00:00:41.041' end='00:00:42.976' space='preserve'><span style='block'>THIS IS A<br/>PAINT-ON CAPTION.</span></p>
+<p begin='00:00:43.010' end='00:00:45.045' space='preserve'><span style='block'>ONE CAPTION BLOCK IS<br/>PAINTED ON THE SCREEN,</span></p>
+<p begin='00:00:45.078' end='00:00:48.749' space='preserve'><span style='block'>FROM LEFT TO RIGHT,<br/>ONE CHARACTER AT A TIME.</span></p>
+<p begin='00:00:48.949' end='00:00:50.684' tts:textAlign='left'  style='rollup' space='preserve'><span style='block'>NOW THE ROLL-UP MODE.</span></p>
+<p begin='00:00:50.684' end='00:00:51.752' tts:textAlign='left'  style='rollup' space='preserve'><span style='block'>THIS MODE IS NORMALLY</span></p>
+<p begin='00:00:51.752' end='00:00:54.221' tts:textAlign='left'  style='rollup' space='preserve'><span style='block'>USED FOR LIVE TV PROGRAMS.</span></p>
+<p begin='00:00:54.221' end='00:00:55.556' tts:textAlign='left'  style='rollup' space='preserve'><span style='block'>CAPTION LINES ROLL UP</span></p>
+<p begin='00:00:55.556' end='00:00:57.124' tts:textAlign='left'  style='rollup' space='preserve'><span style='block'>ONE LINE AT A TIME.</span></p>
+<p begin='00:00:57.925' end='00:00:59.593' space='preserve'><span style='block'>Captions can appear<br/>in lower case,</span></p>
+<p begin='00:00:59.593' end='00:01:01.461' space='preserve'><span style='block'>and also in Spanish:</span></p>
+<p begin='00:01:01.461' end='00:01:04.665' space='preserve'><span style='block'>¿Dónde está el niño?<br/>Está en la casa.</span></p>
+<p begin='00:01:04.665' end='00:01:06.066' space='preserve'><span style='block'>And in French:</span></p>
+<p begin='00:01:06.066' end='00:01:10.370' space='preserve'><span style='block'>Parlez-vous Français?<br/>Répétez, s&apos;il vous plaît.</span></p>
+<p begin='00:01:10.370' end='00:01:13.607' region='upperThird'  space='preserve'><br/><span style='block'>THE FOLLOWING SPECIAL<br/>CHARACTERS ARE ALSO AVAILABLE.<br/>á é í ó ú à è ì ò ù<br/>ä ë ï ö ü â ê î ô û</span></p>
+<p begin='00:01:13.607' end='00:01:17.811' region='upperThird'  space='preserve'><br/><span style='block'>THEY INCLUDE THE MUSIC SYMBOL<br/>AND ACCENTED CHARACTERS.<br/>ç ã ñ õ å ¿ ¡ ¢<br/>£ ¥ © ® &#x2122; ° ß &#x266A;</span></p>
+</div>
+</body>
+</tt>

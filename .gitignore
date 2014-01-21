@@ -3,6 +3,7 @@
 .settings/
 /node_modules
 npm-debug.log
+/dist/test
 /components/
 /temp
 /.build

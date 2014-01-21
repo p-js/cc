@@ -8,7 +8,7 @@
         "url": "https://p-js@github.com/p-js/cc.git"
     },
     "devDependencies": {
-        "grunt": "0.4.x",
+        "grunt": "~0.4.2",
         "grunt-contrib": "0.4.x",
         "grunt-rigger": "git://github.com/giannif/grunt-rigger.git",
         "grunt-contrib-uglify": "*",
