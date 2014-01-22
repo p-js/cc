@@ -4,7 +4,7 @@
 	Share and enjoy
 	https://github.com/cgiffard/Captionator
 
-	built: 01/21/2014 05:23:55 PM
+	built: 01/22/2014 03:08:09 PM
 */
 /* jshint strict:true */
 (function() {
@@ -688,17 +688,18 @@
 			});
 		}
 	};
+	/* global $ */
 	(function() {
 		function ttmlToVtt(ttml) {
 			if (!ttml) {
 				return "";
 			}
-			return ttml.replace(/ style=\"block\"/gi, "").replace(/<br>/gi, "\n").replace(/<\/br>/gi, "");
+			ttml = $(ttml).html();
+			return ttml.replace(/<br>|<\/br>/gi, "\n");
 		}
 	
-		var Cue = window.VTTCue || window.TextTrackCue; 
+		var Cue = window.VTTCue || window.TextTrackCue;
 	
-		/* global TextTrackCue */
 		/**
 		 * Loops through all the TextTracks for a given element and manages their display (including generation of container elements.)
 		 * First parameter: HTMLVideoElement object with associated TextTracks
@@ -713,13 +714,16 @@
 					track.vttProcessed = true;
 					var newTrack = videoElement.addTextTrack("captions");
 					newTrack.id = track.src;
-					track.cues.forEach(function(cue) {
-						if (cue.track.kind !== "metadata" && cue.mode !== captionator.TextTrack.HIDDEN) {
+					newTrack.mode = "disabled";
+					try {
+						track.cues.forEach(function(cue) {
 							var processed = ttmlToVtt(cue.text.toString());
 							var newCue = new Cue(cue.startTime, cue.endTime, processed);
 							newTrack.addCue(newCue);
-						}
-					});
+						});
+					} catch (e) {
+						console.error("error parsing ttml into vtt.", e);
+					}
 				}
 			});
 		};
