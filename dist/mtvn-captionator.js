@@ -4,7 +4,7 @@
 	Share and enjoy
 	https://github.com/cgiffard/Captionator
 
-	built: 12/08/2013 06:38:25 PM
+	built: 01/27/2014 02:59:56 PM
 */
 /* jshint strict:true */
 (function() {
@@ -26,6 +26,7 @@
 	// export
 	window.captionator = captionator;
 
+	/* exported mtvnProcessTTS */
 	var mtvnProcessTTS = function(cueSplit) {
 		for (var i = 0, len = cueSplit.length; i < len; i++) {
 	
@@ -688,6 +689,81 @@
 			});
 		}
 	};
+	/* global $*/
+	(function() {
+		var LABEL = "Closed Captioning";
+		function ttmlToVtt(ttml) {
+			if (!ttml) {
+				return "";
+			}
+			ttml = ttml.replace(/&lt;/g, "<")
+				.replace(/&gt;/g, ">").replace(/&amp;/g, "&")
+				.replace(/&quot;/g, "\"").replace(/&#39;/g, "'");
+			var $ttml = $("<span>" + ttml + "</span>");
+			$ttml.find("BR").replaceWith("\n");
+			$ttml.find("span").each(function(index, el) {
+				var $el = $(el);
+				if ($el.css("fontStyle") === "italic") {
+					$el.replaceWith("<i>" + $el.html() + "</i>");
+				}
+				if ($.trim($el.text()) === "" && $el.children().length === 0) {
+					$el.replaceWith("");
+				}
+				$el.removeAttr("style");
+			});
+			return $ttml.html();
+		}
+	
+		var Cue = window.VTTCue || window.TextTrackCue;
+	
+		/**
+		 * Loops through all the TextTracks for a given element and manages their display (including generation of container elements.)
+		 * First parameter: HTMLVideoElement object with associated TextTracks
+		 */
+		captionator.rebuildCaptionsVTT = function(videoElement) {
+			var trackList = videoElement._textTracks || [];
+			trackList.forEach(function(track) {
+				if (track.vttProcessed) {
+					return;
+				}
+				if (track.readyState === captionator.TextTrack.LOADED) {
+					track.vttProcessed = true;
+					var newTrack;
+					$.each(videoElement.textTracks, function(index, currentTrack) {
+						if(currentTrack.label === LABEL){
+							newTrack = currentTrack;
+						}
+					});
+					if(!newTrack){
+						newTrack = videoElement.addTextTrack("captions", LABEL);
+						newTrack.mode = "disabled";
+					}
+					try {
+						track.cues.forEach(function(cue) {
+							var processed = ttmlToVtt(cue.text.toString());
+							var newCue = new Cue(cue.startTime, cue.endTime, processed);
+							switch (cue.alignment) {
+								case "left":
+									newCue.position = 5;
+									newCue.align = "start";
+									break;
+								case "right":
+									newCue.position = 95;
+									newCue.align = "end";
+									break;
+								default:
+									break;
+							}
+	
+							newTrack.addCue(newCue);
+						});
+					} catch (e) {
+						console.error("error parsing ttml into vtt.", e);
+					}
+				}
+			});
+		};
+	})();
 	captionator.mtvnProcessOutput = function(text) {
 		if (!text) {
 			return "";
@@ -709,6 +785,9 @@
 
 
 	captionator.mtvnCaptionify = function(element, defaultLanguage) {
+		if(element.vtt){
+			captionator.rebuildCaptions = captionator.rebuildCaptionsVTT;
+		}
 		this.captionify(element, defaultLanguage, {
 			sizeCuesByTextBoundingBox: true,
 			sanitiseCueHTML: true,
@@ -1051,7 +1130,6 @@
 						cueSettings += key + ":" + compositeCueSettings[key];
 					}
 				}
-	
 				// The remaining lines are the subtitle payload itself (after removing an ID if present, and the time);
 				html = options.processCueHTML === false ? subtitleParts.join("\n") : processCaptionHTML(subtitleParts.join("\n"));
 				tmpCue = new captionator.TextTrackCue(id, timeIn, timeOut, html, cueSettings, false, null);
@@ -1082,13 +1160,13 @@
 					timeOut = 0,
 					timestampIn = String(xmlNode.getAttribute("begin")),
 					timestampOut = String(xmlNode.getAttribute("end")),
+					textAlign = String(xmlNode.getAttribute("tts:textAlign")),
 					id = xmlNode.getAttribute("id") || index;
-	
 				timeIn = processTTMLTimestamp(timestampIn);
 				timeOut = processTTMLTimestamp(timestampOut);
-	
+				textAlign = textAlign === "null" || !textAlign ?  "middle" : textAlign;
 				html = options.processCueHTML === false ? xmlNode.innerHTML : processCaptionHTML(xmlNode.innerHTML);
-				return new captionator.TextTrackCue(id, timeIn, timeOut, html, {}, false, null);
+				return new captionator.TextTrackCue(id, timeIn, timeOut, html, "A:"+textAlign, false, null);
 			};
 	
 			// Begin parsing --------------------
@@ -1238,19 +1316,15 @@
 						track.activeCues.refreshCues.apply(track.activeCues);
 					});
 				} catch (error) {}
-	
-				// External renderer?
-				if (options.renderer instanceof Function) {
-					options.renderer.call(captionator, videoElement);
-				} else {
-					captionator.rebuildCaptions(videoElement);
-				}
-			}, false);
-	
-			window.addEventListener("resize", function() {
-				videoElement._captionator_dirtyBit = true; // mark video as dirty, force captionator to rerender captions
 				captionator.rebuildCaptions(videoElement);
 			}, false);
+	
+			if (!videoElement.vtt) {
+				window.addEventListener("resize", function() {
+					videoElement._captionator_dirtyBit = true; // mark video as dirty, force captionator to rerender captions
+					captionator.rebuildCaptions(videoElement);
+				}, false);
+			}
 	
 			// Hires mode
 			if (options.enableHighResolution === true) {
@@ -1260,13 +1334,7 @@
 							track.activeCues.refreshCues.apply(track.activeCues);
 						});
 					} catch (error) {}
-	
-					// External renderer?
-					if (options.renderer instanceof Function) {
-						options.renderer.call(captionator, videoElement);
-					} else {
-						captionator.rebuildCaptions(videoElement);
-					}
+					captionator.rebuildCaptions(videoElement);
 				}, 20);
 			}
 		}
@@ -1800,6 +1868,9 @@
 		}
 	};
 	captionator.updateCCPrefs = function(videoElement, options) {
+		if(videoElement.vtt){
+			return;
+		}
 		mtvnStyles = options || mtvnStyles;
 		fontSizeVerticalPercentage = captionator.convertFontSizePercentage(mtvnStyles.fontSize);
 		// mark video as dirty, force captionator to rerender captions

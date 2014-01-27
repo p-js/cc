@@ -1,4 +1,13 @@
 
+0.3.0 / 2014-01-27 
+==================
+
+ * VTT Support.
+ * Support for textAlign in VTT. 
+ * Support for html encodings such as &lt; in VTT. 
+ * Support for italics in VTT. 
+ * Support for full episodes in VTT.
+
 0.2.0 / 2013-12-08 
 ==================
 

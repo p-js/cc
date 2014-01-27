@@ -1,6 +1,6 @@
 {
     "name": "mtvn-captionator",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "author": "gianni ferullo <giannif@gmail.com>",
     "description": "captionator with ttml closed captions only",
     "repository": {
@@ -8,7 +8,7 @@
         "url": "https://p-js@github.com/p-js/cc.git"
     },
     "devDependencies": {
-        "grunt": "0.4.x",
+        "grunt": "~0.4.2",
         "grunt-contrib": "0.4.x",
         "grunt-rigger": "git://github.com/giannif/grunt-rigger.git",
         "grunt-contrib-uglify": "*",

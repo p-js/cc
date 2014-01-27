@@ -269,7 +269,6 @@ captionator.parseCaptions = function(captionData, options) {
 					cueSettings += key + ":" + compositeCueSettings[key];
 				}
 			}
-
 			// The remaining lines are the subtitle payload itself (after removing an ID if present, and the time);
 			html = options.processCueHTML === false ? subtitleParts.join("\n") : processCaptionHTML(subtitleParts.join("\n"));
 			tmpCue = new captionator.TextTrackCue(id, timeIn, timeOut, html, cueSettings, false, null);
@@ -300,13 +299,13 @@ captionator.parseCaptions = function(captionData, options) {
 				timeOut = 0,
 				timestampIn = String(xmlNode.getAttribute("begin")),
 				timestampOut = String(xmlNode.getAttribute("end")),
+				textAlign = String(xmlNode.getAttribute("tts:textAlign")),
 				id = xmlNode.getAttribute("id") || index;
-
 			timeIn = processTTMLTimestamp(timestampIn);
 			timeOut = processTTMLTimestamp(timestampOut);
-
+			textAlign = textAlign === "null" || !textAlign ?  "middle" : textAlign;
 			html = options.processCueHTML === false ? xmlNode.innerHTML : processCaptionHTML(xmlNode.innerHTML);
-			return new captionator.TextTrackCue(id, timeIn, timeOut, html, {}, false, null);
+			return new captionator.TextTrackCue(id, timeIn, timeOut, html, "A:"+textAlign, false, null);
 		};
 
 		// Begin parsing --------------------

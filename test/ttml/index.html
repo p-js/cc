@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script src="../components/zepto/zepto.js"></script>
+		<script src="../../mtvn-captionator.js"></script>
+		<script src="test.js"></script>
+		<meta charset="utf-8"> 
+	</head>
+	<body>
+		<div>
+			<video controls>
+				<source src="http://asmassets.mtvnservices.com/test/cctest/testbed/cpc_demo_video.mp4"></source>
+				<source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm"></source>
+				<source src="http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8"></source>
+			</video>
+			<div id="cc"></div>
+		</div>
+		<script>
+			new TestCaptions($("video")[0], $("#cc")[0]);
+		</script>
+	</body>
+</html>

@@ -52,19 +52,15 @@ captionator.processVideoElement = function(videoElement, options) {
 					track.activeCues.refreshCues.apply(track.activeCues);
 				});
 			} catch (error) {}
-
-			// External renderer?
-			if (options.renderer instanceof Function) {
-				options.renderer.call(captionator, videoElement);
-			} else {
-				captionator.rebuildCaptions(videoElement);
-			}
-		}, false);
-
-		window.addEventListener("resize", function() {
-			videoElement._captionator_dirtyBit = true; // mark video as dirty, force captionator to rerender captions
 			captionator.rebuildCaptions(videoElement);
 		}, false);
+
+		if (!videoElement.vtt) {
+			window.addEventListener("resize", function() {
+				videoElement._captionator_dirtyBit = true; // mark video as dirty, force captionator to rerender captions
+				captionator.rebuildCaptions(videoElement);
+			}, false);
+		}
 
 		// Hires mode
 		if (options.enableHighResolution === true) {
@@ -74,13 +70,7 @@ captionator.processVideoElement = function(videoElement, options) {
 						track.activeCues.refreshCues.apply(track.activeCues);
 					});
 				} catch (error) {}
-
-				// External renderer?
-				if (options.renderer instanceof Function) {
-					options.renderer.call(captionator, videoElement);
-				} else {
-					captionator.rebuildCaptions(videoElement);
-				}
+				captionator.rebuildCaptions(videoElement);
 			}, 20);
 		}
 	}

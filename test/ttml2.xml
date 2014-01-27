@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><tt xmlns="http://www.w3.org/ns/ttml" xmlns:tts="http://www.w3.org/ns/ttml#styling" xml:lang="">
+<head>
+<styling>
+<style tts:backgroundColor="transparent" tts:color="#ffffff" tts:fontFamily="monospace" tts:fontWeight="bold" xml:id="defaultSpeaker"/>
+<style tts:backgroundColor="#00000088" xml:id="block"/>
+<style xml:id="rollup"/>
+</styling>
+<layout>
+<region style="defaultSpeaker" xml:id="lowerThird">
+ <style tts:displayAlign="after" tts:extent="80% 90%" tts:origin="10% 5%" tts:textAlign="center"/>
+</region>
+<region style="defaultSpeaker" xml:id="middleThird">
+<style tts:displayAlign="center" tts:extent="80% 90%" tts:origin="10% 5%" tts:textAlign="center"/>
+</region>
+<region style="defaultSpeaker" xml:id="upperThird">
+<style tts:displayAlign="before" tts:extent="80% 90%" tts:origin="10% 5%" tts:textAlign="center"/>
+</region>
+</layout>
+</head>
+<body region="lowerThird" tts:textAlign="center">
+<div>
+<p begin="00:00:00.801" end="00:00:01.702" space="preserve" tts:textAlign="left"><span style="block">FOR MORE ON THIS<br/>WE'RE JOINED BY SENIOR</span></p>
+<p begin="00:00:01.735" end="00:00:05.239" space="preserve" tts:textAlign="left"><span style="block">DERANGED MILLIONAIRE JOHN<br/>HODGMAN.</span></p>
+<p begin="00:00:05.272" end="00:00:06.240" space="preserve" tts:textAlign="left"><span style="block">HELLO.</span></p>
+<p begin="00:00:06.273" end="00:00:07.307" space="preserve" tts:textAlign="left"><span style="block">Jon: WHAT DO YOU MAKE OF<br/>COMPANIES GAMING THE</span></p>
+<p begin="00:00:07.341" end="00:00:08.642" space="preserve" tts:textAlign="left"><span style="block">HEALTH-CARE SYSTEM.</span></p>
+<p begin="00:00:08.675" end="00:00:12.346" space="preserve" tts:textAlign="left"><span style="block">AMATEURS, JON, REDUCING<br/>WORK HOURS, CUTTING EMPLOYEE</span></p>
+<p begin="00:00:12.379" end="00:00:15.082" space="preserve" tts:textAlign="left"><span style="block">ROLES, STILL PAYING<br/>MANDATORY WORK FOR ON</span></p>
+<p begin="00:00:15.115" end="00:00:15.816" space="preserve" tts:textAlign="left"><span style="block">WEEKENDS.</span></p>
+<p begin="00:00:15.849" end="00:00:17.117" space="preserve" tts:textAlign="left"><span style="block">Jon: RIGHT, BUT THEY HAVE<br/>TO.</span></p>
+<p begin="00:00:17.150" end="00:00:19.219" space="preserve" tts:textAlign="left"><span style="block">HOW DO YOU AVOID PAYING<br/>WEEKEND OVERTIME.</span></p>
+<p begin="00:00:19.253" end="00:00:22.656" space="preserve" tts:textAlign="left"><span style="block">SIMPLE, JON, AT MY<br/>COMPANY, HODGECO WE USE A</span></p>
+<p begin="00:00:22.689" end="00:00:24.691" space="preserve" tts:textAlign="left"><span style="block">DIFFERENT CALENDAR.</span></p>
+<p begin="00:00:24.725" end="00:00:28.095" space="preserve" tts:textAlign="left"><span style="block">MEET FRIDAY FOLLOWED BY NEW<br/>FRIDAY AND BACK BY POPULAR</span></p>
+<p begin="00:00:28.128" end="00:00:30.297" space="preserve" tts:textAlign="left"><span style="block">DEMAND FRIDAY<br/>CLASSIC.</span></p>
+<p begin="00:00:30.330" end="00:00:32.900" space="preserve" tts:textAlign="left"><span style="block">THE DOWNSIDE NO MORE<br/>WEEKENDS BUT THE UPSIDE</span></p>
+<p begin="00:00:32.933" end="00:00:37.271" space="preserve" tts:textAlign="left"><span style="block">THREE CONSECUTIVE CASUAL<br/>FRIDAYS.</span></p>
+<p begin="00:00:37.304" end="00:00:39.306" space="preserve" tts:textAlign="left"><span style="block">DUNGAREES, WHAT COULD BE<br/>BETTER THAN THAT.</span></p>
+<p begin="00:00:39.339" end="00:00:40.674" space="preserve" tts:textAlign="left"><span style="block">Jon: OVERTIME PAY.</span></p>
+<p begin="00:00:40.707" end="00:00:43.043" space="preserve" tts:textAlign="left"><span style="block">MY EMPLOYEES UNDERSTAND<br/>IT'S ALL ABOUT TRADE-OFF.</span></p>
+<p begin="00:00:43.076" end="00:00:47.114" space="preserve" tts:textAlign="left"><span style="block">IF I PAY OVERTIME HOW CAN I<br/>PROVIDE MATERNITY LEAVE.</span></p>
+<p begin="00:00:47.147" end="00:00:48.815" space="preserve" tts:textAlign="left"><span style="block">Jon: YOU OFFER MATERNITY<br/>LEAVE.</span></p>
+<p begin="00:00:48.849" end="00:00:49.917" space="preserve" tts:textAlign="left"><span style="block">OF COURSE I DO.</span></p>
+<p begin="00:00:49.950" end="00:00:52.085" space="preserve" tts:textAlign="left"><span style="block">SOMEONE GETS PREGNANT THEY<br/>CAN LEAVE.</span></p>
+<p begin="00:00:52.119" end="00:00:53.086" space="preserve" tts:textAlign="left"><span style="block">YEAH.</span></p>
+<p begin="00:00:53.120" end="00:00:56.056" space="preserve" tts:textAlign="left"><span style="block">THAT JOKE KILLS AT THE<br/>ANNUAL [BLEEP] BRUNCH LAST</span></p>
+<p begin="00:00:56.089" end="00:00:57.191" space="preserve" tts:textAlign="left"><span style="block">MAY.</span></p>
+<p begin="00:00:57.224" end="00:01:00.127" space="preserve" tts:textAlign="left"><span style="block">THE POINT IS WHEN IT COMES<br/>TO COST-CUTTING THIS OBAMACARE</span></p>
+<p begin="00:01:00.160" end="00:01:01.495" space="preserve" tts:textAlign="left"><span style="block">DODGE IS CHILD'S PLAY.</span></p>
+<p begin="00:01:01.528" end="00:01:02.529" space="preserve" tts:textAlign="left"><span style="block">AND SPEAKING OF CHILDREN.</span></p>
+<p begin="00:01:02.563" end="00:01:03.931" space="preserve" tts:textAlign="left"><span style="block">Jon: THIS IS NOT<br/>GOING TO END WELL.</span></p>
+<p begin="00:01:03.964" end="00:01:06.600" space="preserve" tts:textAlign="left"><span style="block">DO YOU KNOW THAT IT'S<br/>TECHNICALLY ILLEGAL TO HAVE</span></p>
+<p begin="00:01:06.633" end="00:01:09.670" space="preserve" tts:textAlign="left"><span style="block">CHILDREN WORK IN YOUR<br/>SHIRTWAIST FACTORY.</span></p>
+<p begin="00:01:09.703" end="00:01:11.705" space="preserve" tts:textAlign="left"><span style="block">Jon: I DID KNOW THAT WHAT<br/>I DIDN'T KNOW WAS PEOPLE</span></p>
+<p begin="00:01:11.738" end="00:01:13.106" space="preserve" tts:textAlign="left"><span style="block">STILL MAKE SHIRTWAISTS.</span></p>
+<p begin="00:01:13.140" end="00:01:16.443" space="preserve" tts:textAlign="left"><span style="block">BUT HERE'S THE LOOPHOLE,<br/>JON, IT IS LEGAL FOR KIDS TO</span></p>
+<p begin="00:01:16.476" end="00:01:18.212" space="preserve" tts:textAlign="left"><span style="block">WORK IN THE MOVIES.</span></p>
+<p begin="00:01:18.245" end="00:01:19.580" space="preserve" tts:textAlign="left"><span style="block">Jon: I DON'T LIKE WHERE<br/>THIS IS GOING.</span></p>
+<p begin="00:01:19.613" end="00:01:21.615" space="preserve" tts:textAlign="left"><span style="block">YES, I'M MAKING A MOVIE.</span></p>
+<p begin="00:01:21.648" end="00:01:24.251" space="preserve" tts:textAlign="left"><span style="block">IT'S A HEARTWARMING STORY<br/>ABOUT A BUNCH OF</span></p>
+<p begin="00:01:24.284" end="00:01:26.386" space="preserve" tts:textAlign="left"><span style="block">MISFIT KIDS WHO COME<br/>TOGETHER UNDER THE</span></p>
+<p begin="00:01:26.420" end="00:01:29.122" space="preserve" tts:textAlign="left"><span style="block">LEADERSHIP OF A GRUMPY BUT<br/>LOVABLE COACH TO FORM AN</span></p>
+<p begin="00:01:29.156" end="00:01:32.292" space="preserve" tts:textAlign="left"><span style="block">UNDERDOG SHIRTWAIST FACTORY<br/>TO TAKE DOWN THOSE SNOBS AT</span></p>
+<p begin="00:01:32.326" end="00:01:34.895" space="preserve" tts:textAlign="left"><span style="block">THE RICH KID SHIRTWAIST<br/>FACTORY ACROSS THE LAKE.</span></p>
+<p begin="00:01:34.928" end="00:01:36.930" space="preserve" tts:textAlign="left"><span style="block">I'VE BEEN FILMING FOR 7<br/>YEARS.</span></p>
+<p begin="00:01:36.964" end="00:01:38.699" space="preserve" tts:textAlign="left"><span style="block">16 HOURS A DAY.</span></p>
+<p begin="00:01:38.732" end="00:01:40.400" space="preserve" tts:textAlign="left"><span style="block">AND WE'RE WAY UNDERBUDGET.</span></p>
+<p begin="00:01:40.434" end="00:01:43.403" space="preserve" tts:textAlign="left"><span style="block">Jon: SO BASICALLY YOU<br/>HAVE A SWEATSHOP THAT MAKES</span></p>
+<p begin="00:01:43.437" end="00:01:44.371" space="preserve" tts:textAlign="left"><span style="block">OBSOLETE CLOTHING.</span></p>
+<p begin="00:01:44.404" end="00:01:46.206" space="preserve" tts:textAlign="left"><span style="block">NO, I HAVE THE KIDS<br/>WORKING ON ALL KINDS OF</span></p>
+<p begin="00:01:46.240" end="00:01:50.611" space="preserve" tts:textAlign="left"><span style="block">THINGS, JON, ASBESTOS,<br/>PRELIT FIREWORKS, INDUSTRIAL</span></p>
+<p begin="00:01:50.644" end="00:01:52.679" space="preserve" tts:textAlign="left"><span style="block">HAND MANGLERS.</span></p>
+<p begin="00:01:52.713" end="00:01:55.449" space="preserve" tts:textAlign="left"><span style="block">Jon: INDUSTRIAL-- WHO<br/>WOULD BUY AN INDUSTRIAL HAND</span></p>
+<p begin="00:01:55.482" end="00:01:56.383" space="preserve" tts:textAlign="left"><span style="block">MANGLER.</span></p>
+<p begin="00:01:56.416" end="00:01:58.785" space="preserve" tts:textAlign="left"><span style="block">COME ON, JON, IT'S 2013<br/>YOU DON'T WANT TO</span></p>
+<p begin="00:01:58.819" end="00:02:00.721" space="preserve" tts:textAlign="left"><span style="block">MANGLE HANDS BY HAND.</span></p>
+<p begin="00:02:00.754" end="00:02:04.057" space="preserve" tts:textAlign="left"><span style="block">ASK ANY MOB ENFORCER, YOU<br/>CAN GET CARPAL TUNNEL THAT</span></p>
+<p begin="00:02:04.091" end="00:02:05.058" space="preserve" tts:textAlign="left"><span style="block">WAY.</span></p>
+<p begin="00:02:05.058" end="00:02:06.693" space="preserve" tts:textAlign="left"><span style="block">Jon: I UNDERSTAND<br/>OBAMACARE DOES PUT CERTAIN</span></p>
+<p begin="00:02:06.727" end="00:02:08.629" space="preserve" tts:textAlign="left"><span style="block">BURDENS ON BUSINESS BUT<br/>DOESN'T THE EMPLOYER BEAR</span></p>
+<p begin="00:02:08.662" end="00:02:12.866" space="preserve" tts:textAlign="left"><span style="block">SOME SORT OF RESPONSIBILITY<br/>TO THE EMPLOYEE, THIS SEEMS</span></p>
+<p begin="00:02:12.900" end="00:02:15.536" space="preserve" tts:textAlign="left"><span style="block">LIKE YOU'RE GIVING A HUGE<br/>MIDDLE FINGER TO YOUR</span></p>
+<p begin="00:02:15.569" end="00:02:16.570" space="preserve" tts:textAlign="left"><span style="block">WORKERS.</span></p>
+<p begin="00:02:16.603" end="00:02:18.305" space="preserve" tts:textAlign="left"><span style="block">SO YOU HAVE SEEN MY<br/>EMPLOYEE ORIENTATION VIDEO.</span></p>
+<p begin="00:02:18.338" end="00:02:20.307" space="preserve" tts:textAlign="left"><span style="block">OH, HELLO.</span></p>
+<p begin="00:02:20.340" end="00:02:23.944" space="preserve" tts:textAlign="left"><span style="block">I'M JOHN HODGMAN, ALLOW ME<br/>TO BE THE VERY FIRST TO</span></p>
+<p begin="00:02:23.977" end="00:02:27.648" space="preserve" tts:textAlign="left"><span style="block">WELCOME YOU TO YOUR NEW<br/>CAREER AS A PURELY PART-TIME</span></p>
+<p begin="00:02:27.681" end="00:02:32.319" space="preserve" tts:textAlign="left"><span style="block">NONEMPLOYEE AND OR HALF PAID<br/>INTERN OF HODGECO-- ASBESTOS</span></p>
+<p begin="00:02:32.352" end="00:02:32.986" space="preserve" tts:textAlign="left"><span style="block">AND MANGLE.</span></p>
+<p begin="00:02:33.086" end="00:02:34.121" space="preserve" tts:textAlign="left"><span style="block">I GOT YOU A GIFT.</span></p>
+<p begin="00:02:34.154" end="00:02:35.822" space="preserve" tts:textAlign="left"><span style="block">REACH IN YOUR POCKET THERE<br/>IT IS.</span></p>
+<p begin="00:02:35.856" end="00:02:36.356" space="preserve" tts:textAlign="left"><span style="block">OKAY.</span></p>
+<p begin="00:02:36.390" end="00:02:37.724" space="preserve" tts:textAlign="left"><span style="block">HA, HA, HA.</span></p>
+<p begin="00:02:37.758" end="00:02:39.126" space="preserve" tts:textAlign="left"><span style="block">HA, HA, HA.</span></p>
+<p begin="00:02:39.159" end="00:02:41.128" space="preserve" tts:textAlign="left"><span style="block">HA, HA, HA, HA, HA.</span></p>
+<p begin="00:02:41.161" end="00:02:42.829" space="preserve" tts:textAlign="left"><span style="block">Jon: HOW DO YOU EVEN GET<br/>AWAY WITH THAT.</span></p>
+<p begin="00:02:42.863" end="00:02:44.565" space="preserve" tts:textAlign="left"><span style="block">HOW DO YOU GET ANYBODY TO<br/>WORK FOR YOU.</span></p>
+<p begin="00:02:44.598" end="00:02:47.334" space="preserve" tts:textAlign="left"><span style="block">JON, WE'VE BEEN AT 7%<br/>UNEMPLOYMENT FOR FIVE YEARS.</span></p>
+<p begin="00:02:47.367" end="00:02:51.138" space="preserve" tts:textAlign="left"><span style="block">BEING AN EMPLOYER THIS YEAR<br/>IS LIKE BEING A GIRL AT</span></p>
+<p begin="00:02:51.171" end="00:02:52.139" space="preserve" tts:textAlign="left"><span style="block">COMIC CON.</span></p>
+<p begin="00:02:52.172" end="00:02:55.242" space="preserve" tts:textAlign="left"><span style="block">DOES NOT MATTER HOW<br/>OFFENSIVELY INACCURATE YOUR</span></p>
+<p begin="00:02:55.275" end="00:02:57.110" space="preserve" tts:textAlign="left"><span style="block">PRECRISIS ON INFINITE EARTHS<br/>YOUR SUPERGIRL COSTUME IS.</span></p>
+<p begin="00:02:57.144" end="00:02:58.645" space="preserve" tts:textAlign="left"><span style="block">YOU ARE TO THE GOING HOME<br/>ALONE.</span></p>
+<p begin="00:02:58.679" end="00:03:00.414" space="preserve" tts:textAlign="left"><span style="block">IT'S ALL ABOUT THE HEAD BAND,<br/>JOHN.</span></p>
+<p begin="00:03:00.447" end="00:03:02.115" space="preserve" tts:textAlign="left"><span style="block">Jon: I UNDERSTAND THAT.</span></p>
+<p begin="00:03:02.149" end="00:03:02.216" space="preserve" tts:textAlign="left"><span style="block">JOHN HODGMAN, DERANGED<br/>MILLIONAIRE.</span></p>
+</div>
+</body>
+</tt>
