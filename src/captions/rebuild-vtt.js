@@ -1,11 +1,26 @@
-/* global $ */
+/* global $*/
 (function() {
+	var LABEL = "Closed Captioning";
 	function ttmlToVtt(ttml) {
 		if (!ttml) {
 			return "";
 		}
-		ttml = $(ttml).html();
-		return ttml.replace(/<br>|<\/br>/gi, "\n");
+		ttml = ttml.replace(/&lt;/g, "<")
+			.replace(/&gt;/g, ">").replace(/&amp;/g, "&")
+			.replace(/&quot;/g, "\"").replace(/&#39;/g, "'");
+		var $ttml = $("<span>" + ttml + "</span>");
+		$ttml.find("BR").replaceWith("\n");
+		$ttml.find("span").each(function(index, el) {
+			var $el = $(el);
+			if ($el.css("fontStyle") === "italic") {
+				$el.replaceWith("<i>" + $el.html() + "</i>");
+			}
+			if ($.trim($el.text()) === "" && $el.children().length === 0) {
+				$el.replaceWith("");
+			}
+			$el.removeAttr("style");
+		});
+		return $ttml.html();
 	}
 
 	var Cue = window.VTTCue || window.TextTrackCue;
@@ -20,15 +35,35 @@
 			if (track.vttProcessed) {
 				return;
 			}
-			if (track.mode === captionator.TextTrack.SHOWING && track.readyState === captionator.TextTrack.LOADED) {
+			if (track.readyState === captionator.TextTrack.LOADED) {
 				track.vttProcessed = true;
-				var newTrack = videoElement.addTextTrack("captions");
-				newTrack.id = track.src;
-				newTrack.mode = "disabled";
+				var newTrack;
+				$.each(videoElement.textTracks, function(index, currentTrack) {
+					if(currentTrack.label === LABEL){
+						newTrack = currentTrack;
+					}
+				});
+				if(!newTrack){
+					newTrack = videoElement.addTextTrack("captions", LABEL);
+					newTrack.mode = "disabled";
+				}
 				try {
 					track.cues.forEach(function(cue) {
 						var processed = ttmlToVtt(cue.text.toString());
 						var newCue = new Cue(cue.startTime, cue.endTime, processed);
+						switch (cue.alignment) {
+							case "left":
+								newCue.position = 5;
+								newCue.align = "start";
+								break;
+							case "right":
+								newCue.position = 95;
+								newCue.align = "end";
+								break;
+							default:
+								break;
+						}
+
 						newTrack.addCue(newCue);
 					});
 				} catch (e) {

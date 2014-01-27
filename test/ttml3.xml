@@ -46,11 +46,11 @@
 <p begin='00:00:55.556' end='00:00:57.124' tts:textAlign='left'  style='rollup' space='preserve'><span style='block'>ONE LINE AT A TIME.</span></p>
 <p begin='00:00:57.925' end='00:00:59.593' space='preserve'><span style='block'>Captions can appear<br/>in lower case,</span></p>
 <p begin='00:00:59.593' end='00:01:01.461' space='preserve'><span style='block'>and also in Spanish:</span></p>
-<p begin='00:01:01.461' end='00:01:04.665' space='preserve'><span style='block'>¿Dónde está el niño?<br/>Está en la casa.</span></p>
+<p begin='00:01:01.461' end='00:01:04.665' space='preserve'><span style='block'>Â¿DÃ³nde estÃ¡ el niÃ±o?<br/>EstÃ¡ en la casa.</span></p>
 <p begin='00:01:04.665' end='00:01:06.066' space='preserve'><span style='block'>And in French:</span></p>
-<p begin='00:01:06.066' end='00:01:10.370' space='preserve'><span style='block'>Parlez-vous Français?<br/>Répétez, s&apos;il vous plaît.</span></p>
-<p begin='00:01:10.370' end='00:01:13.607' region='upperThird'  space='preserve'><br/><span style='block'>THE FOLLOWING SPECIAL<br/>CHARACTERS ARE ALSO AVAILABLE.<br/>á é í ó ú à è ì ò ù<br/>ä ë ï ö ü â ê î ô û</span></p>
-<p begin='00:01:13.607' end='00:01:17.811' region='upperThird'  space='preserve'><br/><span style='block'>THEY INCLUDE THE MUSIC SYMBOL<br/>AND ACCENTED CHARACTERS.<br/>ç ã ñ õ å ¿ ¡ ¢<br/>£ ¥ © ® &#x2122; ° ß &#x266A;</span></p>
+<p begin='00:01:06.066' end='00:01:10.370' space='preserve'><span style='block'>Parlez-vous FranÃ§ais?<br/>RÃ©pÃ©tez, s&apos;il vous plaÃ®t.</span></p>
+<p begin='00:01:10.370' end='00:01:13.607' region='upperThird'  space='preserve'><br/><span style='block'>THE FOLLOWING SPECIAL<br/>CHARACTERS ARE ALSO AVAILABLE.<br/>Ã¡ Ã© Ã­ Ã³ Ãº Ã  Ã¨ Ã¬ Ã² Ã¹<br/>Ã¤ Ã« Ã¯ Ã¶ Ã¼ Ã¢ Ãª Ã® Ã´ Ã»</span></p>
+<p begin='00:01:13.607' end='00:01:17.811' region='upperThird'  space='preserve'><br/><span style='block'>THEY INCLUDE THE MUSIC SYMBOL<br/>AND ACCENTED CHARACTERS.<br/>Ã§ Ã£ Ã± Ãµ Ã¥ Â¿ Â¡ Â¢<br/>Â£ Â¥ Â© Â® &#x2122; Â° ÃŸ &#x266A;</span></p>
 </div>
 </body>
 </tt>

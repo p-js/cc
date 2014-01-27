@@ -1,3 +1,4 @@
+/* exported mtvnProcessTTS */
 var mtvnProcessTTS = function(cueSplit) {
 	for (var i = 0, len = cueSplit.length; i < len; i++) {
 
